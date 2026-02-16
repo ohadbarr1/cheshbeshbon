@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חשבשבון — סימולטור החלטות פיננסיות</title>
+    <meta name="description" content="חשבשבון — כלי חכם לחישוב משכנתא, שכר נטו, שכירות מול קנייה ופנסיה. מותאם לישראל.">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">&#x1F4B0;</span>
+                <h1>חשבשבון</h1>
+                <span class="tagline">סימולטור החלטות פיננסיות</span>
+            </div>
+            <div class="header-right">
+                <div class="data-badge">
+                    <span class="data-badge-dot"></span>
+                    נתונים מעודכנים: 2025
+                </div>
+                <button class="premium-btn" id="premiumBtn">
+                    <span class="premium-icon">&#x2B50;</span>
+                    פרימיום
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tab-nav">
+        <div class="tab-nav-inner">
+            <button class="tab-btn active" data-tab="mortgage">
+                <span class="tab-icon">&#x1F3E0;</span>
+                <span class="tab-label">משכנתא</span>
+            </button>
+            <button class="tab-btn" data-tab="salary">
+                <span class="tab-icon">&#x1F4B5;</span>
+                <span class="tab-label">שכר</span>
+            </button>
+            <button class="tab-btn" data-tab="rent-vs-buy">
+                <span class="tab-icon">&#x1F3D7;</span>
+                <span class="tab-label">שכירות/קנייה</span>
+            </button>
+            <button class="tab-btn" data-tab="pension">
+                <span class="tab-icon">&#x1F4C8;</span>
+                <span class="tab-label">פנסיה</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- ==================== MORTGAGE SECTION ==================== -->
+        <section class="calculator-section active" id="mortgage-section">
+            <div class="section-header">
+                <div class="section-header-text">
+                    <h2>משכנתא מאסטר</h2>
+                    <p>בנה תמהיל, ראה תוצאות בזמן אמת, הבן מה באמת עולה לך</p>
+                </div>
+                <span class="section-source">ריביות: בנק ישראל 2025</span>
+            </div>
+            <div class="calculator-layout">
+                <div class="inputs-panel">
+                    <!-- Quick Presets -->
+                    <div class="presets-row">
+                        <button class="preset-chip" data-preset="mortgage-800k">&#x26A1; ₪800K</button>
+                        <button class="preset-chip" data-preset="mortgage-1m">&#x26A1; ₪1M</button>
+                        <button class="preset-chip" data-preset="mortgage-1.5m">&#x26A1; ₪1.5M</button>
+                        <button class="preset-chip" data-preset="mortgage-2m">&#x26A1; ₪2M</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-row">
+                            <h3>מסלולי המשכנתא</h3>
+                            <button class="btn-add" id="add-track-btn">+ הוסף מסלול</button>
+                        </div>
+
+                        <div id="mortgage-tracks">
+                            <div class="track-card" data-track="0">
+                                <div class="track-header">
+                                    <span class="track-title">מסלול 1</span>
+                                    <button class="btn-remove-track" title="הסר מסלול">&#x2715;</button>
+                                </div>
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label>סוג מסלול</label>
+                                        <select class="track-type">
+                                            <option value="prime">פריים</option>
+                                            <option value="fixed">קבועה לא צמודה</option>
+                                            <option value="cpi-fixed">קבועה צמודת מדד</option>
+                                            <option value="variable">משתנה לא צמודה</option>
+                                            <option value="cpi-variable">משתנה צמודת מדד</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="input-row three-col">
+                                    <div class="input-group">
+                                        <label>סכום (₪)</label>
+                                        <input type="number" class="track-amount" value="500000" min="0" step="10000" inputmode="numeric">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>שנים</label>
+                                        <input type="number" class="track-years" value="20" min="4" max="30" inputmode="numeric">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>ריבית %
+                                            <span class="tooltip-trigger" data-tooltip="ריבית שנתית נומינלית. בפריים: ריבית בנק ישראל + מרווח הבנק">?</span>
+                                        </label>
+                                        <input type="number" class="track-rate" value="5.5" min="0" max="15" step="0.1" inputmode="decimal">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="track-card" data-track="1">
+                                <div class="track-header">
+                                    <span class="track-title">מסלול 2</span>
+                                    <button class="btn-remove-track" title="הסר מסלול">&#x2715;</button>
+                                </div>
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label>סוג מסלול</label>
+                                        <select class="track-type">
+                                            <option value="prime">פריים</option>
+                                            <option value="fixed" selected>קבועה לא צמודה</option>
+                                            <option value="cpi-fixed">קבועה צמודת מדד</option>
+                                            <option value="variable">משתנה לא צמודה</option>
+                                            <option value="cpi-variable">משתנה צמודת מדד</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="input-row three-col">
+                                    <div class="input-group">
+                                        <label>סכום (₪)</label>
+                                        <input type="number" class="track-amount" value="300000" min="0" step="10000" inputmode="numeric">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>שנים</label>
+                                        <input type="number" class="track-years" value="15" min="4" max="30" inputmode="numeric">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>ריבית %</label>
+                                        <input type="number" class="track-rate" value="4.2" min="0" max="15" step="0.1" inputmode="decimal">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="track-card" data-track="2">
+                                <div class="track-header">
+                                    <span class="track-title">מסלול 3</span>
+                                    <button class="btn-remove-track" title="הסר מסלול">&#x2715;</button>
+                                </div>
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label>סוג מסלול</label>
+                                        <select class="track-type">
+                                            <option value="prime">פריים</option>
+                                            <option value="fixed">קבועה לא צמודה</option>
+                                            <option value="cpi-fixed" selected>קבועה צמודת מדד</option>
+                                            <option value="variable">משתנה לא צמודה</option>
+                                            <option value="cpi-variable">משתנה צמודת מדד</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="input-row three-col">
+                                    <div class="input-group">
+                                        <label>סכום (₪)</label>
+                                        <input type="number" class="track-amount" value="200000" min="0" step="10000" inputmode="numeric">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>שנים</label>
+                                        <input type="number" class="track-years" value="10" min="4" max="30" inputmode="numeric">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>ריבית %</label>
+                                        <input type="number" class="track-rate" value="2.5" min="0" max="15" step="0.1" inputmode="decimal">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group cpi-assumption">
+                            <label for="cpi-rate">הנחת אינפלציה שנתית (%)
+                                <span class="tooltip-trigger" data-tooltip="שיעור עליית מדד המחירים לצרכן הצפוי. משפיע על מסלולים צמודי מדד בלבד">?</span>
+                            </label>
+                            <input type="number" id="cpi-rate" value="2.5" min="0" max="10" step="0.1" inputmode="decimal">
+                        </div>
+                    </div>
+
+                    <div class="premium-feature-card" id="mortgage-compare-card">
+                        <span class="lock-badge">&#x1F512; פרימיום</span>
+                        <h4>השוואת תמהילים</h4>
+                        <p>שמור עד 3 תמהילים והשווה ביניהם זה לצד זה</p>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel" id="mortgage-results">
+                    <div class="results-placeholder">
+                        <span class="placeholder-icon">&#x1F3E0;</span>
+                        <h3>גלה כמה באמת עולה לך המשכנתא</h3>
+                        <p>התחל לשנות ערכים והתוצאות יעודכנו בזמן אמת</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SALARY SECTION ==================== -->
+        <section class="calculator-section" id="salary-section">
+            <div class="section-header">
+                <div class="section-header-text">
+                    <h2>מחשבון שכר אמיתי</h2>
+                    <p>הבן את השכר האמיתי שלך — כל הניכויים, כל ההטבות, בלי הפתעות</p>
+                </div>
+                <span class="section-source">מדרגות מס: רשות המסים 2025</span>
+            </div>
+            <div class="calculator-layout">
+                <div class="inputs-panel">
+                    <!-- Quick Presets -->
+                    <div class="presets-row">
+                        <button class="preset-chip green" data-preset="salary-10k">₪10K</button>
+                        <button class="preset-chip green" data-preset="salary-15k">₪15K</button>
+                        <button class="preset-chip green" data-preset="salary-20k">₪20K</button>
+                        <button class="preset-chip green" data-preset="salary-30k">₪30K</button>
+                        <button class="preset-chip green" data-preset="salary-50k">₪50K</button>
+                    </div>
+
+                    <div class="card">
+                        <!-- Employee / Self-Employed Toggle -->
+                        <div class="toggle-group" id="employment-toggle">
+                            <button class="toggle-option active" data-mode="employee">&#x1F464; שכיר</button>
+                            <button class="toggle-option" data-mode="self-employed">&#x1F4BC; עצמאי</button>
+                        </div>
+
+                        <h3>פרטי שכר</h3>
+                        <div class="input-group">
+                            <label for="salary-gross">שכר ברוטו חודשי (₪)</label>
+                            <input type="number" id="salary-gross" value="20000" min="0" step="500" inputmode="numeric">
+                        </div>
+                        <div class="input-row" id="employee-pension-row">
+                            <div class="input-group">
+                                <label for="salary-pension-employee">הפרשת עובד לפנסיה (%)
+                                    <span class="tooltip-trigger" data-tooltip="ניכוי פנסיוני מהשכר הברוטו. מחוקק: מינימום 6%">?</span>
+                                </label>
+                                <input type="number" id="salary-pension-employee" value="6" min="0" max="7" step="0.5" inputmode="decimal">
+                            </div>
+                            <div class="input-group">
+                                <label for="salary-pension-employer">הפרשת מעסיק לפנסיה (%)</label>
+                                <input type="number" id="salary-pension-employer" value="6.5" min="0" max="7.5" step="0.5" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-row" id="employee-keren-row">
+                            <div class="input-group">
+                                <label for="salary-keren-employee">קרן השתלמות עובד (%)
+                                    <span class="tooltip-trigger" data-tooltip="חיסכון פטור ממס אחרי 6 שנים (3 לעצמאי). תקרת פטור: עד 2.5% עובד + 7.5% מעסיק">?</span>
+                                </label>
+                                <input type="number" id="salary-keren-employee" value="2.5" min="0" max="2.5" step="0.5" inputmode="decimal">
+                            </div>
+                            <div class="input-group">
+                                <label for="salary-keren-employer">קרן השתלמות מעסיק (%)</label>
+                                <input type="number" id="salary-keren-employer" value="7.5" min="0" max="7.5" step="0.5" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="salary-credit-points">נקודות זיכוי
+                                    <span class="tooltip-trigger" data-tooltip="כל נקודה = ₪242/חודש הפחתה ממס. תושב: 2.25 | אישה: +0.5 | ילד עד 18: 1-2 נקודות">?</span>
+                                </label>
+                                <input type="number" id="salary-credit-points" value="2.25" min="0" max="10" step="0.25" inputmode="decimal">
+                                <span class="input-hint">גבר: 2.25 | אישה: 2.75 | + ילדים</span>
+                            </div>
+                            <div class="input-group">
+                                <label for="salary-travel">החזר נסיעות (₪)</label>
+                                <input type="number" id="salary-travel" value="0" min="0" step="100" inputmode="numeric">
+                            </div>
+                        </div>
+                        <!-- Company car (common Israeli benefit) -->
+                        <div class="input-group">
+                            <label for="salary-car-value">שווי רכב צמוד (₪/חודש)
+                                <span class="tooltip-trigger" data-tooltip="שווי שימוש ברכב מחושב כ-% ממחיר הרכב ומתווסף לשכר לצורך מס. הזן 0 אם אין רכב צמוד">?</span>
+                            </label>
+                            <input type="number" id="salary-car-value" value="0" min="0" step="100" inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <div class="premium-feature-card" id="salary-compare-card">
+                        <span class="lock-badge">&#x1F512; פרימיום</span>
+                        <h4>השוואת חבילות שכר</h4>
+                        <p>הזן שתי הצעות שכר והשווה את הערך האמיתי של כל אחת</p>
+                    </div>
+                </div>
+
+                <div class="results-panel" id="salary-results">
+                    <div class="results-placeholder">
+                        <span class="placeholder-icon">&#x1F4B5;</span>
+                        <h3>כמה באמת נשאר לך?</h3>
+                        <p>שנה את הברוטו והתוצאות יופיעו מיד</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== RENT VS BUY SECTION ==================== -->
+        <section class="calculator-section" id="rent-vs-buy-section">
+            <div class="section-header">
+                <div class="section-header-text">
+                    <h2>שכירות vs. קנייה</h2>
+                    <p>מה עדיף לך? השוואה מלאה עם כל העלויות הישראליות</p>
+                </div>
+                <span class="section-source">מס רכישה: רשות המסים 2025</span>
+            </div>
+            <div class="calculator-layout">
+                <div class="inputs-panel">
+                    <div class="presets-row">
+                        <button class="preset-chip purple" data-preset="rvb-1.5m">דירת ₪1.5M</button>
+                        <button class="preset-chip purple" data-preset="rvb-2m">דירת ₪2M</button>
+                        <button class="preset-chip purple" data-preset="rvb-3m">דירת ₪3M</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>תרחיש קנייה</h3>
+                        <div class="input-group">
+                            <label for="rvb-property-price">מחיר הנכס (₪)</label>
+                            <input type="number" id="rvb-property-price" value="2000000" min="0" step="50000" inputmode="numeric">
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="rvb-equity">הון עצמי (₪)</label>
+                                <input type="number" id="rvb-equity" value="500000" min="0" step="50000" inputmode="numeric">
+                            </div>
+                            <div class="input-group">
+                                <label for="rvb-mortgage-rate">ריבית משכנתא ממוצעת (%)</label>
+                                <input type="number" id="rvb-mortgage-rate" value="4.5" min="0" max="15" step="0.1" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="rvb-mortgage-years">שנות משכנתא</label>
+                                <input type="number" id="rvb-mortgage-years" value="25" min="4" max="30" inputmode="numeric">
+                            </div>
+                            <div class="input-group">
+                                <label for="rvb-appreciation">עליית ערך שנתית (%)
+                                    <span class="tooltip-trigger" data-tooltip="עליית ערך ממוצעת ב-20 שנה אחרונות: ~5% בשנה. שמרני: 2-3%">?</span>
+                                </label>
+                                <input type="number" id="rvb-appreciation" value="3" min="-5" max="15" step="0.5" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="rvb-arnona">ארנונה חודשית (₪)</label>
+                                <input type="number" id="rvb-arnona" value="350" min="0" step="50" inputmode="numeric">
+                            </div>
+                            <div class="input-group">
+                                <label for="rvb-vaad">ועד בית חודשי (₪)</label>
+                                <input type="number" id="rvb-vaad" value="250" min="0" step="50" inputmode="numeric">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="rvb-first-apt">
+                                <input type="checkbox" id="rvb-first-apt" checked>
+                                דירה יחידה (מס רכישה מופחת)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>תרחיש שכירות</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="rvb-rent">שכ"ד חודשי (₪)</label>
+                                <input type="number" id="rvb-rent" value="5000" min="0" step="100" inputmode="numeric">
+                            </div>
+                            <div class="input-group">
+                                <label for="rvb-rent-increase">עליית שכ"ד שנתית (%)</label>
+                                <input type="number" id="rvb-rent-increase" value="3" min="0" max="10" step="0.5" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="rvb-investment-return">תשואה על השקעה חלופית (%)
+                                <span class="tooltip-trigger" data-tooltip="תשואה שנתית ממוצעת על תיק השקעות. מניות: ~8%, אג&quot;ח: ~3%, משולב: ~5-6%">?</span>
+                            </label>
+                            <input type="number" id="rvb-investment-return" value="6" min="0" max="20" step="0.5" inputmode="decimal">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="rvb-years">טווח השוואה (שנים)</label>
+                        <input type="range" id="rvb-years" value="20" min="5" max="30" step="1">
+                        <span class="range-value" id="rvb-years-display">20 שנים</span>
+                    </div>
+                </div>
+
+                <div class="results-panel" id="rent-vs-buy-results">
+                    <div class="results-placeholder">
+                        <span class="placeholder-icon">&#x1F3D7;</span>
+                        <h3>לקנות או לשכור?</h3>
+                        <p>שנה ערכים ותראה מיד מה עדיף</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PENSION SECTION ==================== -->
+        <section class="calculator-section" id="pension-section">
+            <div class="section-header">
+                <div class="section-header-text">
+                    <h2>מחשבון פנסיה</h2>
+                    <p>כמה תקבל בפנסיה? בוא נבדוק אם אתה בכיוון</p>
+                </div>
+                <span class="section-source">יעד: 70% מהשכר האחרון</span>
+            </div>
+            <div class="calculator-layout">
+                <div class="inputs-panel">
+                    <div class="presets-row">
+                        <button class="preset-chip gold" data-preset="pension-young">&#x1F476; צעיר (25)</button>
+                        <button class="preset-chip gold" data-preset="pension-mid">&#x1F468; אמצע (35)</button>
+                        <button class="preset-chip gold" data-preset="pension-senior">&#x1F474; מבוגר (50)</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>הפרטים שלך</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="pension-age">גיל נוכחי</label>
+                                <input type="number" id="pension-age" value="30" min="18" max="66" inputmode="numeric">
+                            </div>
+                            <div class="input-group">
+                                <label for="pension-retire-age">גיל פרישה</label>
+                                <input type="number" id="pension-retire-age" value="67" min="60" max="75" inputmode="numeric">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="pension-salary">שכר ברוטו חודשי (₪)</label>
+                            <input type="number" id="pension-salary" value="20000" min="0" step="500" inputmode="numeric">
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="pension-employee-pct">הפרשת עובד (%)</label>
+                                <input type="number" id="pension-employee-pct" value="6" min="0" max="7" step="0.5" inputmode="decimal">
+                            </div>
+                            <div class="input-group">
+                                <label for="pension-employer-pct">הפרשת מעסיק (%)</label>
+                                <input type="number" id="pension-employer-pct" value="6.5" min="0" max="7.5" step="0.5" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="pension-current-savings">חיסכון פנסיוני נוכחי (₪)</label>
+                                <input type="number" id="pension-current-savings" value="100000" min="0" step="10000" inputmode="numeric">
+                            </div>
+                            <div class="input-group">
+                                <label for="pension-return">תשואה שנתית צפויה (%)
+                                    <span class="tooltip-trigger" data-tooltip="תשואה ממוצעת של קרנות פנסיה בישראל ב-10 שנים אחרונות: כ-5-6%">?</span>
+                                </label>
+                                <input type="number" id="pension-return" value="4.5" min="0" max="12" step="0.5" inputmode="decimal">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="pension-salary-growth">עליית שכר שנתית (%)</label>
+                            <input type="number" id="pension-salary-growth" value="2" min="0" max="10" step="0.5" inputmode="decimal">
+                        </div>
+                    </div>
+
+                    <div class="premium-feature-card" id="pension-optimize-card">
+                        <span class="lock-badge">&#x1F512; פרימיום</span>
+                        <h4>אופטימיזציית פנסיה</h4>
+                        <p>קבל המלצות מותאמות אישית לשיפור החיסכון הפנסיוני</p>
+                    </div>
+                </div>
+
+                <div class="results-panel" id="pension-results">
+                    <div class="results-placeholder">
+                        <span class="placeholder-icon">&#x1F4C8;</span>
+                        <h3>מה מחכה לך בפנסיה?</h3>
+                        <p>שנה את הגיל או השכר וראה מיד</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Premium Modal -->
+    <div class="modal-overlay" id="premium-modal">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">&#x2715;</button>
+            <div class="modal-header">
+                <span class="modal-icon">&#x2B50;</span>
+                <h2>חשבשבון פרימיום</h2>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">שדרג את חוויית קבלת ההחלטות הפיננסיות שלך</p>
+                <ul class="premium-features-list">
+                    <li>&#x2705; השוואת תמהילי משכנתא זה לצד זה</li>
+                    <li>&#x2705; השוואת חבילות שכר</li>
+                    <li>&#x2705; סימולציית פירעון מוקדם</li>
+                    <li>&#x2705; אופטימיזציית פנסיה מותאמת</li>
+                    <li>&#x2705; שמירת תרחישים ללא הגבלה</li>
+                    <li>&#x2705; שיתוף תוצאות</li>
+                </ul>
+                <div class="pricing">
+                    <div class="price-card">
+                        <span class="price-label">חודשי</span>
+                        <span class="price-amount">&#x20AA;29</span>
+                        <span class="price-period">לחודש</span>
+                    </div>
+                    <div class="price-card featured">
+                        <span class="price-badge">הכי משתלם</span>
+                        <span class="price-label">שנתי</span>
+                        <span class="price-amount">&#x20AA;199</span>
+                        <span class="price-period">לשנה (&#x20AA;16.5/חודש)</span>
+                    </div>
+                </div>
+                <button class="btn-subscribe">התחל תקופת ניסיון חינם — 7 ימים</button>
+                <p class="modal-disclaimer">ביטול בכל עת. ללא התחייבות.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>חשבשבון &copy; 2025 — כל הנתונים להמחשה בלבד ואינם מהווים ייעוץ פיננסי. מדרגות מס ונתונים מעודכנים לשנת 2025.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/charts.js"></script>
+    <script src="js/insights.js"></script>
+    <script src="js/share.js"></script>
+    <script src="js/premium.js"></script>
+    <script src="js/mortgage.js"></script>
+    <script src="js/salary.js"></script>
+    <script src="js/rent-vs-buy.js"></script>
+    <script src="js/pension.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
