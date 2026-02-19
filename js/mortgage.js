@@ -60,6 +60,14 @@ const MortgageCalc = {
                         <input type="number" id="track-${idx}-rate" class="track-rate" value="3.5" min="0" max="15" step="0.1" inputmode="decimal">
                     </div>
                 </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>גרייס (חודשים)
+                            <span class="tooltip-trigger" data-tooltip="תקופת גרייס — תשלום ריבית בלבד, ללא קרן">?</span>
+                        </label>
+                        <input type="number" id="track-${idx}-grace" class="track-grace" value="0" min="0" max="24" inputmode="numeric">
+                    </div>
+                </div>
             </div>`;
 
         document.getElementById('mortgage-tracks').insertAdjacentHTML('beforeend', html);
@@ -82,7 +90,7 @@ const MortgageCalc = {
         return names[type] || type;
     },
 
-    calculateTrack(amount, years, annualRate, type, annualCPI) {
+    calculateTrack(amount, years, annualRate, type, annualCPI, graceMonths = 0) {
         const months = years * 12;
         const monthlyRate = annualRate / 100 / 12;
         const monthlyCPI = Math.pow(1 + annualCPI / 100, 1 / 12) - 1;
@@ -94,13 +102,26 @@ const MortgageCalc = {
         let totalInterest = 0;
 
         if (!isCPI) {
-            const payment = monthlyRate > 0
-                ? amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1)
-                : amount / months;
+            let postGracePayment = 0;
 
             for (let m = 1; m <= months; m++) {
                 const interestPayment = balance * monthlyRate;
-                const principalPayment = payment - interestPayment;
+                let payment, principalPayment;
+                if (m <= graceMonths) {
+                    // Grace period: interest only
+                    payment = interestPayment;
+                    principalPayment = 0;
+                } else {
+                    // After grace: calculate amortization over remaining months
+                    if (m === graceMonths + 1) {
+                        const remaining = months - graceMonths;
+                        postGracePayment = monthlyRate > 0
+                            ? balance * (monthlyRate * Math.pow(1 + monthlyRate, remaining)) / (Math.pow(1 + monthlyRate, remaining) - 1)
+                            : balance / remaining;
+                    }
+                    payment = postGracePayment;
+                    principalPayment = payment - interestPayment;
+                }
                 balance -= principalPayment;
                 totalInterest += interestPayment;
                 totalPaid += payment;
@@ -109,12 +130,19 @@ const MortgageCalc = {
         } else {
             for (let m = 1; m <= months; m++) {
                 balance *= (1 + monthlyCPI);
-                const remainingMonths = months - m + 1;
-                const payment = monthlyRate > 0
-                    ? balance * (monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) / (Math.pow(1 + monthlyRate, remainingMonths) - 1)
-                    : balance / remainingMonths;
                 const interestPayment = balance * monthlyRate;
-                const principalPayment = payment - interestPayment;
+                let payment, principalPayment;
+                if (m <= graceMonths) {
+                    // Grace period: interest only, CPI still adjusts balance
+                    payment = interestPayment;
+                    principalPayment = 0;
+                } else {
+                    const remainingMonths = months - m + 1;
+                    payment = monthlyRate > 0
+                        ? balance * (monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) / (Math.pow(1 + monthlyRate, remainingMonths) - 1)
+                        : balance / remainingMonths;
+                    principalPayment = payment - interestPayment;
+                }
                 balance -= principalPayment;
                 totalInterest += interestPayment;
                 totalPaid += payment;
@@ -179,15 +207,56 @@ const MortgageCalc = {
             const amount = parseFloat(card.querySelector('.track-amount').value) || 0;
             const years = parseInt(card.querySelector('.track-years').value) || 20;
             const rate = parseFloat(card.querySelector('.track-rate').value) || 0;
+            const graceEl = card.querySelector('.track-grace');
+            const grace = graceEl ? (parseInt(graceEl.value) || 0) : 0;
 
             if (amount > 0) {
-                const result = this.calculateTrack(amount, years, rate, type, cpiRate);
-                tracks.push({ index: i + 1, type, typeName: this.getTrackTypeName(type), amount, years, rate, ...result });
+                const result = this.calculateTrack(amount, years, rate, type, cpiRate, grace);
+                tracks.push({ index: i + 1, type, typeName: this.getTrackTypeName(type), amount, years, rate, grace, ...result });
             }
         });
 
         if (tracks.length === 0) return;
+
+        // BOI regulatory warnings
+        this.renderBOIWarnings(tracks);
+
         this.renderResults(tracks, cpiRate);
+    },
+
+    renderBOIWarnings(tracks) {
+        const warningsEl = document.getElementById('boi-warnings');
+        if (!warningsEl) return;
+
+        const warnings = [];
+        const totalAmount = tracks.reduce((s, t) => s + t.amount, 0);
+
+        // Prime > 2/3 check
+        const primeAmount = tracks.filter(t => t.type === 'prime').reduce((s, t) => s + t.amount, 0);
+        if (totalAmount > 0 && primeAmount / totalAmount > 2 / 3) {
+            const primePct = (primeAmount / totalAmount * 100).toFixed(0);
+            warnings.push(`\u26A0\uFE0F מסלולי פריים מהווים ${primePct}% מהמשכנתא — בנק ישראל מגביל ל-⅔ (66.67%) מסך המשכנתא במסלול פריים.`);
+        }
+
+        // PTI > 40% check
+        const netIncomeEl = document.getElementById('mortgage-net-income');
+        const netIncome = netIncomeEl ? (parseFloat(netIncomeEl.value) || 0) : 0;
+        if (netIncome > 0) {
+            const firstMonthlyPayment = tracks.reduce((s, t) => s + (t.firstPayment || 0), 0);
+            const pti = firstMonthlyPayment / netIncome;
+            if (pti > 0.40) {
+                const ptiPct = (pti * 100).toFixed(0);
+                warnings.push(`\u26A0\uFE0F ההחזר החודשי מהווה ${ptiPct}% מההכנסה נטו — בנק ישראל מגביל ל-40% מהשכר נטו (PTI).`);
+            }
+        }
+
+        if (warnings.length > 0) {
+            warningsEl.innerHTML = warnings.map(w =>
+                `<div class="insight-card warning"><p>${w}</p></div>`
+            ).join('');
+        } else {
+            warningsEl.innerHTML = '';
+        }
     },
 
     renderResults(tracks, cpiRate) {
@@ -363,7 +432,7 @@ const MortgageCalc = {
             let newTotal = 0;
             tracks.forEach(t => {
                 const adjustedRate = Math.max(0, t.rate + delta);
-                const result = this.calculateTrack(t.amount, t.years, adjustedRate, t.type, cpiRate);
+                const result = this.calculateTrack(t.amount, t.years, adjustedRate, t.type, cpiRate, t.grace || 0);
                 newTotal += result.totalPaid;
             });
 

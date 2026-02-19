@@ -40,8 +40,9 @@ const RentVsBuyCalc = {
         return tax;
     },
 
-    simulate(price, equity, mortgageRate, mortgageYears, appreciation, arnona, vaad, isSingle, rent, rentIncrease, investmentReturn, years) {
+    simulate(price, equity, mortgageRate, mortgageYears, appreciation, arnona, vaad, isSingle, rent, rentIncrease, investmentReturn, years, brokerFee, lawyerFee, renovation) {
         const purchaseTax = this.calculatePurchaseTax(price, isSingle);
+        const closingCosts = price * (brokerFee || 0) / 100 + price * (lawyerFee || 0) / 100 + (renovation || 0);
         const mortgageAmount = price - equity;
         const monthlyRate = mortgageRate / 100 / 12;
         const totalMonths = mortgageYears * 12;
@@ -51,7 +52,7 @@ const RentVsBuyCalc = {
 
         const buyTimeline = [];
         const rentTimeline = [];
-        let buyTotalSpent = equity + purchaseTax;
+        let buyTotalSpent = equity + purchaseTax + closingCosts;
         let rentInvestmentBalance = equity;
         let currentRent = rent;
         let propertyValue = price;
@@ -92,7 +93,7 @@ const RentVsBuyCalc = {
             rentTimeline.push({ year: y, netWealth: rentInvestmentBalance });
         }
 
-        return { buyTimeline, rentTimeline, purchaseTax, monthlyMortgage, mortgageAmount };
+        return { buyTimeline, rentTimeline, purchaseTax, closingCosts, monthlyMortgage, mortgageAmount };
     },
 
     calculate() {
@@ -108,11 +109,14 @@ const RentVsBuyCalc = {
         const rentIncrease = parseFloat(document.getElementById('rvb-rent-increase').value) || 0;
         const investmentReturn = parseFloat(document.getElementById('rvb-investment-return').value) || 0;
         const years = parseInt(document.getElementById('rvb-years').value) || 20;
+        const brokerFee = parseFloat(document.getElementById('rvb-broker-fee').value) || 0;
+        const lawyerFee = parseFloat(document.getElementById('rvb-lawyer-fee').value) || 0;
+        const renovation = parseFloat(document.getElementById('rvb-renovation').value) || 0;
 
         if (price <= 0 || rent <= 0) return;
 
-        const result = this.simulate(price, equity, mortgageRate, mortgageYears, appreciation, arnona, vaad, isSingle, rent, rentIncrease, investmentReturn, years);
-        const { buyTimeline, rentTimeline, purchaseTax, monthlyMortgage, mortgageAmount } = result;
+        const result = this.simulate(price, equity, mortgageRate, mortgageYears, appreciation, arnona, vaad, isSingle, rent, rentIncrease, investmentReturn, years, brokerFee, lawyerFee, renovation);
+        const { buyTimeline, rentTimeline, purchaseTax, closingCosts, monthlyMortgage, mortgageAmount } = result;
 
         const finalBuyWealth = buyTimeline[buyTimeline.length - 1].netWealth;
         const finalRentWealth = rentTimeline[rentTimeline.length - 1].netWealth;
@@ -120,12 +124,12 @@ const RentVsBuyCalc = {
 
         this.renderResults({
             buyTimeline, rentTimeline, years,
-            purchaseTax, monthlyMortgage, mortgageAmount,
+            purchaseTax, closingCosts, monthlyMortgage, mortgageAmount,
             finalBuyWealth, finalRentWealth, buyWins,
             equity, price, appreciation, investmentReturn,
             // Pass inputs for sensitivity
             mortgageRate, mortgageYears, arnona, vaad, isSingle,
-            rent, rentIncrease
+            rent, rentIncrease, brokerFee, lawyerFee, renovation
         });
     },
 
@@ -166,8 +170,9 @@ const RentVsBuyCalc = {
                     <tr><td>הון עצמי</td><td>${fmt(d.equity)}</td></tr>
                     <tr><td>סכום משכנתא</td><td>${fmt(d.mortgageAmount)}</td></tr>
                     <tr class="deduction"><td>מס רכישה</td><td>${fmt(d.purchaseTax)}</td></tr>
+                    <tr class="deduction"><td>עלויות סגירה (תיווך + עו"ד + שיפוץ)</td><td>${fmt(d.closingCosts)}</td></tr>
                     <tr><td>החזר חודשי (משכנתא)</td><td>${fmt(d.monthlyMortgage)}</td></tr>
-                    <tr class="total-row"><td>הוצאה ראשונית</td><td>${fmt(d.equity + d.purchaseTax)}</td></tr>
+                    <tr class="total-row"><td>הוצאה ראשונית</td><td>${fmt(d.equity + d.purchaseTax + d.closingCosts)}</td></tr>
                 </table>
             </div>`;
 
@@ -261,7 +266,8 @@ const RentVsBuyCalc = {
             const sim = this.simulate(
                 d.price, d.equity, d.mortgageRate, d.mortgageYears,
                 newApp, d.arnona, d.vaad, d.isSingle,
-                d.rent, d.rentIncrease, d.investmentReturn, d.years
+                d.rent, d.rentIncrease, d.investmentReturn, d.years,
+                d.brokerFee, d.lawyerFee, d.renovation
             );
 
             const newBuyWealth = sim.buyTimeline[sim.buyTimeline.length - 1].netWealth;

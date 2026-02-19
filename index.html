@@ -296,6 +296,14 @@
                                             <input type="number" id="track-0-rate" class="track-rate" value="5.5" min="0" max="15" step="0.1" inputmode="decimal">
                                         </div>
                                     </div>
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label>גרייס (חודשים)
+                                                <span class="tooltip-trigger" data-tooltip="תקופת גרייס — תשלום ריבית בלבד, ללא קרן">?</span>
+                                            </label>
+                                            <input type="number" id="track-0-grace" class="track-grace" value="0" min="0" max="24" inputmode="numeric">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="track-card" data-track="1">
@@ -327,6 +335,14 @@
                                         <div class="input-group">
                                             <label>ריבית %</label>
                                             <input type="number" id="track-1-rate" class="track-rate" value="4.2" min="0" max="15" step="0.1" inputmode="decimal">
+                                        </div>
+                                    </div>
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label>גרייס (חודשים)
+                                                <span class="tooltip-trigger" data-tooltip="תקופת גרייס — תשלום ריבית בלבד, ללא קרן">?</span>
+                                            </label>
+                                            <input type="number" id="track-1-grace" class="track-grace" value="0" min="0" max="24" inputmode="numeric">
                                         </div>
                                     </div>
                                 </div>
@@ -362,6 +378,14 @@
                                             <input type="number" id="track-2-rate" class="track-rate" value="2.5" min="0" max="15" step="0.1" inputmode="decimal">
                                         </div>
                                     </div>
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label>גרייס (חודשים)
+                                                <span class="tooltip-trigger" data-tooltip="תקופת גרייס — תשלום ריבית בלבד, ללא קרן">?</span>
+                                            </label>
+                                            <input type="number" id="track-2-grace" class="track-grace" value="0" min="0" max="24" inputmode="numeric">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -371,7 +395,14 @@
                                 </label>
                                 <input type="number" id="cpi-rate" value="2.5" min="0" max="10" step="0.1" inputmode="decimal">
                             </div>
+                            <div class="input-group">
+                                <label for="mortgage-net-income">הכנסה חודשית נטו (₪)
+                                    <span class="tooltip-trigger" data-tooltip="הכנסה חודשית נטו של כל הלווים. בנק ישראל מגביל את ההחזר החודשי ל-40% מההכנסה נטו">?</span>
+                                </label>
+                                <input type="number" id="mortgage-net-income" value="20000" min="0" step="1000" inputmode="numeric">
+                            </div>
                         </div>
+                        <div id="boi-warnings"></div>
 
                         <div class="premium-feature-card" id="mortgage-compare-card">
                             <span class="lock-badge">&#x1F512; פרימיום</span>
@@ -545,6 +576,26 @@
                                 <div class="input-group">
                                     <label for="rvb-vaad">ועד בית חודשי (₪)</label>
                                     <input type="number" id="rvb-vaad" value="250" min="0" step="50" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="input-row three-col">
+                                <div class="input-group">
+                                    <label for="rvb-broker-fee">עמלת תיווך (%)
+                                        <span class="tooltip-trigger" data-tooltip="עמלת תיווך נהוגה בישראל: 1-2% ממחיר הנכס + מע&quot;מ">?</span>
+                                    </label>
+                                    <input type="number" id="rvb-broker-fee" value="2" min="0" max="5" step="0.5" inputmode="decimal">
+                                </div>
+                                <div class="input-group">
+                                    <label for="rvb-lawyer-fee">שכ"ט עו"ד (%)
+                                        <span class="tooltip-trigger" data-tooltip="שכר טרחת עורך דין לעסקת נדל&quot;ן: 0.5-1.5% ממחיר הנכס + מע&quot;מ">?</span>
+                                    </label>
+                                    <input type="number" id="rvb-lawyer-fee" value="1" min="0" max="3" step="0.5" inputmode="decimal">
+                                </div>
+                                <div class="input-group">
+                                    <label for="rvb-renovation">שיפוץ/מעבר (₪)
+                                        <span class="tooltip-trigger" data-tooltip="עלות שיפוץ ראשוני, מעבר דירה, ריהוט וכו'">?</span>
+                                    </label>
+                                    <input type="number" id="rvb-renovation" value="50000" min="0" step="10000" inputmode="numeric">
                                 </div>
                             </div>
                             <div class="input-group">
