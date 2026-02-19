@@ -46,14 +46,45 @@ const Premium = {
         }
     },
 
+    _previousFocus: null,
+    _focusTrapHandler: null,
+
     showModal() {
-        document.getElementById('premium-modal').classList.add('active');
+        const modal = document.getElementById('premium-modal');
+        this._previousFocus = document.activeElement;
+        modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // Focus trap
+        const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length > 0) {
+            focusable[0].focus();
+            this._focusTrapHandler = (e) => {
+                if (e.key !== 'Tab') return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey) {
+                    if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+                } else {
+                    if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+                }
+            };
+            modal.addEventListener('keydown', this._focusTrapHandler);
+        }
     },
 
     hideModal() {
-        document.getElementById('premium-modal').classList.remove('active');
+        const modal = document.getElementById('premium-modal');
+        if (this._focusTrapHandler) {
+            modal.removeEventListener('keydown', this._focusTrapHandler);
+            this._focusTrapHandler = null;
+        }
+        modal.classList.remove('active');
         document.body.style.overflow = '';
+        if (this._previousFocus) {
+            this._previousFocus.focus();
+            this._previousFocus = null;
+        }
     },
 
     async activatePremium() {

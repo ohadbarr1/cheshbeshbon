@@ -247,9 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ═══════════════════════════════════════════════════════════
     // AUTO-CALCULATE ON LOAD — trigger first calculation
     // ═══════════════════════════════════════════════════════════
-    setTimeout(() => {
-        try { MortgageCalc.calculate(); } catch (e) { console.warn('Mortgage init calc error:', e); }
-    }, 300);
+    try { MortgageCalc.calculate(); } catch (e) { console.warn('Mortgage init calc error:', e); }
 
     // ═══════════════════════════════════════════════════════════
     // KEYBOARD SHORTCUTS
@@ -265,21 +263,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ═══════════════════════════════════════════════════════════
-    // TOOLTIP SYSTEM
+    // TOOLTIP SYSTEM (accessible)
     // ═══════════════════════════════════════════════════════════
+    function toggleTooltip(trigger) {
+        const allTooltips = document.querySelectorAll('.tooltip-trigger.active');
+        allTooltips.forEach(t => {
+            if (t !== trigger) {
+                t.classList.remove('active');
+                t.setAttribute('aria-expanded', 'false');
+            }
+        });
+        const isActive = trigger.classList.toggle('active');
+        trigger.setAttribute('aria-expanded', String(isActive));
+    }
+
     document.querySelectorAll('.tooltip-trigger').forEach(trigger => {
+        trigger.setAttribute('role', 'button');
+        trigger.setAttribute('tabindex', '0');
+        trigger.setAttribute('aria-expanded', 'false');
+
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Toggle tooltip visibility
-            const allTooltips = document.querySelectorAll('.tooltip-trigger.active');
-            allTooltips.forEach(t => { if (t !== trigger) t.classList.remove('active'); });
-            trigger.classList.toggle('active');
+            toggleTooltip(trigger);
+        });
+
+        trigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleTooltip(trigger);
+            }
         });
     });
 
     // Close tooltips on outside click
     document.addEventListener('click', () => {
-        document.querySelectorAll('.tooltip-trigger.active').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tooltip-trigger.active').forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-expanded', 'false');
+        });
     });
 
     // ═══════════════════════════════════════════════════════════
