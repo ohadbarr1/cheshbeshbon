@@ -181,6 +181,8 @@ const PensionCalc = {
         // Share
         html += `<div class="share-row">
             <button class="btn-share" id="pension-share-btn">\uD83D\uDD17 שתף תוצאות</button>
+            ${Scenarios.renderSaveButton('pension')}
+            ${PDFExport.renderButton('pension', 'פנסיה')}
         </div>`;
 
         html += '</div>';

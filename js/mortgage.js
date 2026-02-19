@@ -283,6 +283,8 @@ const MortgageCalc = {
         // Share
         html += `<div class="share-row">
             <button class="btn-share" id="mortgage-share-btn">\uD83D\uDD17 שתף תוצאות</button>
+            ${Scenarios.renderSaveButton('mortgage')}
+            ${PDFExport.renderButton('mortgage', 'משכנתא')}
         </div>`;
 
         html += '</div>';

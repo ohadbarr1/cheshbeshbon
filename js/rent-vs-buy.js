@@ -204,6 +204,8 @@ const RentVsBuyCalc = {
         // Share
         html += `<div class="share-row">
             <button class="btn-share" id="rvb-share-btn">\uD83D\uDD17 שתף תוצאות</button>
+            ${Scenarios.renderSaveButton('rent-vs-buy')}
+            ${PDFExport.renderButton('rent-vs-buy', 'שכירות vs קנייה')}
         </div>`;
 
         html += '</div>';

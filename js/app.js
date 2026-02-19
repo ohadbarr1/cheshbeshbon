@@ -1,5 +1,5 @@
 /**
- * app.js — V2 Reactive Engine, Tab Navigation, Presets, Onboarding
+ * app.js — V2 Reactive Engine, Tab Navigation, Presets, Router, Scenarios
  * The brain of the app: debounced real-time calculation, preset chips, tab switching
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,9 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     SalaryCalc.init();
     RentVsBuyCalc.init();
     PensionCalc.init();
+    Scenarios.init();
+    Router.init();
 
     // ═══════════════════════════════════════════════════════════
-    // TAB NAVIGATION
+    // TAB NAVIGATION (within calculators page)
     // ═══════════════════════════════════════════════════════════
     const tabBtns = document.querySelectorAll('.tab-btn');
     const sections = document.querySelectorAll('.calculator-section');
@@ -278,6 +280,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close tooltips on outside click
     document.addEventListener('click', () => {
         document.querySelectorAll('.tooltip-trigger.active').forEach(t => t.classList.remove('active'));
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    // SCROLL-TRIGGERED FADE-IN (IntersectionObserver)
+    // ═══════════════════════════════════════════════════════════
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                fadeObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in-section').forEach(el => {
+        fadeObserver.observe(el);
     });
 
     // ═══════════════════════════════════════════════════════════
