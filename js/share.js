@@ -38,13 +38,5 @@ const ShareManager = {
             document.execCommand('copy');
             document.body.removeChild(ta);
         }
-    },
-
-    renderButton(onClickFn) {
-        return `<div class="share-row">
-            <button class="btn-share" onclick="(${onClickFn.toString()})()">
-                \uD83D\uDD17 שתף תוצאות
-            </button>
-        </div>`;
     }
 };

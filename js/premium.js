@@ -4,7 +4,7 @@
 const Premium = {
     isActive: false,
 
-    init() {
+    async init() {
         const modal = document.getElementById('premium-modal');
         const premiumBtn = document.getElementById('premiumBtn');
         const modalClose = document.getElementById('modal-close');
@@ -39,9 +39,10 @@ const Premium = {
             });
         });
 
-        // Check localStorage for existing premium
-        if (localStorage.getItem('cheshbeshbon_premium') === 'true') {
-            this.activatePremium(true);
+        // Validate existing token via PremiumService
+        const result = await PremiumService.validateToken();
+        if (result.valid) {
+            this.applyPremiumUI();
         }
     },
 
@@ -55,11 +56,16 @@ const Premium = {
         document.body.style.overflow = '';
     },
 
-    activatePremium(silent = false) {
-        this.isActive = true;
-        localStorage.setItem('cheshbeshbon_premium', 'true');
+    async activatePremium() {
+        const result = await PremiumService.activateSubscription();
+        if (result.success) {
+            this.hideModal();
+            this.applyPremiumUI();
+        }
+    },
 
-        if (!silent) this.hideModal();
+    applyPremiumUI() {
+        this.isActive = true;
 
         // Update UI
         document.querySelectorAll('.premium-feature-card').forEach(card => {

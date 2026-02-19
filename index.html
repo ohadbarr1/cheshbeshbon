@@ -271,7 +271,7 @@
                                     <div class="input-row">
                                         <div class="input-group">
                                             <label>סוג מסלול</label>
-                                            <select class="track-type">
+                                            <select id="track-0-type" class="track-type">
                                                 <option value="prime">פריים</option>
                                                 <option value="fixed">קבועה לא צמודה</option>
                                                 <option value="cpi-fixed">קבועה צמודת מדד</option>
@@ -283,17 +283,17 @@
                                     <div class="input-row three-col">
                                         <div class="input-group">
                                             <label>סכום (₪)</label>
-                                            <input type="number" class="track-amount" value="500000" min="0" step="10000" inputmode="numeric">
+                                            <input type="number" id="track-0-amount" class="track-amount" value="500000" min="0" step="10000" inputmode="numeric">
                                         </div>
                                         <div class="input-group">
                                             <label>שנים</label>
-                                            <input type="number" class="track-years" value="20" min="4" max="30" inputmode="numeric">
+                                            <input type="number" id="track-0-years" class="track-years" value="20" min="4" max="30" inputmode="numeric">
                                         </div>
                                         <div class="input-group">
                                             <label>ריבית %
                                                 <span class="tooltip-trigger" data-tooltip="ריבית שנתית נומינלית. בפריים: ריבית בנק ישראל + מרווח הבנק">?</span>
                                             </label>
-                                            <input type="number" class="track-rate" value="5.5" min="0" max="15" step="0.1" inputmode="decimal">
+                                            <input type="number" id="track-0-rate" class="track-rate" value="5.5" min="0" max="15" step="0.1" inputmode="decimal">
                                         </div>
                                     </div>
                                 </div>
@@ -306,7 +306,7 @@
                                     <div class="input-row">
                                         <div class="input-group">
                                             <label>סוג מסלול</label>
-                                            <select class="track-type">
+                                            <select id="track-1-type" class="track-type">
                                                 <option value="prime">פריים</option>
                                                 <option value="fixed" selected>קבועה לא צמודה</option>
                                                 <option value="cpi-fixed">קבועה צמודת מדד</option>
@@ -318,15 +318,15 @@
                                     <div class="input-row three-col">
                                         <div class="input-group">
                                             <label>סכום (₪)</label>
-                                            <input type="number" class="track-amount" value="300000" min="0" step="10000" inputmode="numeric">
+                                            <input type="number" id="track-1-amount" class="track-amount" value="300000" min="0" step="10000" inputmode="numeric">
                                         </div>
                                         <div class="input-group">
                                             <label>שנים</label>
-                                            <input type="number" class="track-years" value="15" min="4" max="30" inputmode="numeric">
+                                            <input type="number" id="track-1-years" class="track-years" value="15" min="4" max="30" inputmode="numeric">
                                         </div>
                                         <div class="input-group">
                                             <label>ריבית %</label>
-                                            <input type="number" class="track-rate" value="4.2" min="0" max="15" step="0.1" inputmode="decimal">
+                                            <input type="number" id="track-1-rate" class="track-rate" value="4.2" min="0" max="15" step="0.1" inputmode="decimal">
                                         </div>
                                     </div>
                                 </div>
@@ -339,7 +339,7 @@
                                     <div class="input-row">
                                         <div class="input-group">
                                             <label>סוג מסלול</label>
-                                            <select class="track-type">
+                                            <select id="track-2-type" class="track-type">
                                                 <option value="prime">פריים</option>
                                                 <option value="fixed">קבועה לא צמודה</option>
                                                 <option value="cpi-fixed" selected>קבועה צמודת מדד</option>
@@ -351,15 +351,15 @@
                                     <div class="input-row three-col">
                                         <div class="input-group">
                                             <label>סכום (₪)</label>
-                                            <input type="number" class="track-amount" value="200000" min="0" step="10000" inputmode="numeric">
+                                            <input type="number" id="track-2-amount" class="track-amount" value="200000" min="0" step="10000" inputmode="numeric">
                                         </div>
                                         <div class="input-group">
                                             <label>שנים</label>
-                                            <input type="number" class="track-years" value="10" min="4" max="30" inputmode="numeric">
+                                            <input type="number" id="track-2-years" class="track-years" value="10" min="4" max="30" inputmode="numeric">
                                         </div>
                                         <div class="input-group">
                                             <label>ריבית %</label>
-                                            <input type="number" class="track-rate" value="2.5" min="0" max="15" step="0.1" inputmode="decimal">
+                                            <input type="number" id="track-2-rate" class="track-rate" value="2.5" min="0" max="15" step="0.1" inputmode="decimal">
                                         </div>
                                     </div>
                                 </div>
@@ -895,6 +895,7 @@
     <script src="js/charts.js"></script>
     <script src="js/insights.js"></script>
     <script src="js/share.js"></script>
+    <script src="api/premiumService.js"></script>
     <script src="js/premium.js"></script>
     <script src="js/mortgage.js"></script>
     <script src="js/salary.js"></script>

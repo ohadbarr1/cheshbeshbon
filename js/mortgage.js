@@ -27,8 +27,9 @@ const MortgageCalc = {
         if (tracks.length >= 5) return;
 
         this.trackCounter++;
+        const idx = this.trackCounter;
         const html = `
-            <div class="track-card" data-track="${this.trackCounter}">
+            <div class="track-card" data-track="${idx}">
                 <div class="track-header">
                     <span class="track-title">מסלול ${tracks.length + 1}</span>
                     <button class="btn-remove-track" title="הסר מסלול">&#x2715;</button>
@@ -36,7 +37,7 @@ const MortgageCalc = {
                 <div class="input-row">
                     <div class="input-group">
                         <label>סוג מסלול</label>
-                        <select class="track-type">
+                        <select id="track-${idx}-type" class="track-type">
                             <option value="prime">פריים</option>
                             <option value="fixed">קבועה לא צמודה</option>
                             <option value="cpi-fixed">קבועה צמודת מדד</option>
@@ -48,15 +49,15 @@ const MortgageCalc = {
                 <div class="input-row three-col">
                     <div class="input-group">
                         <label>סכום (₪)</label>
-                        <input type="number" class="track-amount" value="200000" min="0" step="10000" inputmode="numeric">
+                        <input type="number" id="track-${idx}-amount" class="track-amount" value="200000" min="0" step="10000" inputmode="numeric">
                     </div>
                     <div class="input-group">
                         <label>שנים</label>
-                        <input type="number" class="track-years" value="15" min="4" max="30" inputmode="numeric">
+                        <input type="number" id="track-${idx}-years" class="track-years" value="15" min="4" max="30" inputmode="numeric">
                     </div>
                     <div class="input-group">
                         <label>ריבית %</label>
-                        <input type="number" class="track-rate" value="3.5" min="0" max="15" step="0.1" inputmode="decimal">
+                        <input type="number" id="track-${idx}-rate" class="track-rate" value="3.5" min="0" max="15" step="0.1" inputmode="decimal">
                     </div>
                 </div>
             </div>`;

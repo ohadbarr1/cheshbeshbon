@@ -64,11 +64,11 @@ const Scenarios = {
 
         const state = {};
         section.querySelectorAll('input, select').forEach(el => {
-            const key = el.id || el.className;
+            if (!el.id) return;
             if (el.type === 'checkbox') {
-                state[key] = el.checked;
+                state[el.id] = el.checked;
             } else {
-                state[key] = el.value;
+                state[el.id] = el.value;
             }
         });
         return state;
@@ -79,12 +79,12 @@ const Scenarios = {
         if (!section) return;
 
         section.querySelectorAll('input, select').forEach(el => {
-            const key = el.id || el.className;
-            if (state[key] !== undefined) {
+            if (!el.id) return;
+            if (state[el.id] !== undefined) {
                 if (el.type === 'checkbox') {
-                    el.checked = state[key];
+                    el.checked = state[el.id];
                 } else {
-                    el.value = state[key];
+                    el.value = state[el.id];
                 }
             }
         });
