@@ -5,6 +5,12 @@ const Scenarios = {
     MAX_PER_CALC: 10,
     STORAGE_KEY: 'cheshbeshbon_scenarios',
 
+    escapeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    },
+
     init() {
         this.renderAll();
     },
@@ -116,8 +122,8 @@ const Scenarios = {
 
         container.style.display = 'flex';
         container.innerHTML = scenarios.map((s, i) => `
-            <button class="scenario-chip" onclick="Scenarios.restore('${calcId}', ${i})" title="${s.date}">
-                ${s.name}
+            <button class="scenario-chip" onclick="Scenarios.restore('${calcId}', ${i})" title="${this.escapeHTML(s.date)}">
+                ${this.escapeHTML(s.name)}
                 <span class="scenario-remove" onclick="event.stopPropagation(); Scenarios.remove('${calcId}', ${i})">&#x2715;</span>
             </button>
         `).join('');
