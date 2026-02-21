@@ -2,6 +2,58 @@
  * app.js — V2 Reactive Engine, Tab Navigation, Presets, Router, Scenarios
  * The brain of the app: debounced real-time calculation, preset chips, tab switching
  */
+// ═══════════════════════════════════════════════════════════
+// INPUT VALIDATION UTILITY
+// ═══════════════════════════════════════════════════════════
+const Validation = {
+    /** Validate a numeric input. Returns clamped value or null if invalid. */
+    validateInput(inputId, { min = 0, max = Infinity, label = '' } = {}) {
+        const el = document.getElementById(inputId);
+        if (!el) return null;
+        const group = el.closest('.input-group');
+        const val = parseFloat(el.value);
+
+        // Remove previous error
+        if (group) {
+            group.classList.remove('has-error');
+            const prev = group.querySelector('.input-error-msg');
+            if (prev) prev.remove();
+        }
+
+        if (isNaN(val)) return null;
+
+        if (val < min) {
+            if (group) {
+                group.classList.add('has-error');
+                const msg = document.createElement('span');
+                msg.className = 'input-error-msg';
+                msg.textContent = `${label || 'ערך'} לא יכול להיות קטן מ-${min}`;
+                group.appendChild(msg);
+            }
+            return null;
+        }
+        if (val > max) {
+            if (group) {
+                group.classList.add('has-error');
+                const msg = document.createElement('span');
+                msg.className = 'input-error-msg';
+                msg.textContent = `${label || 'ערך'} לא יכול לעלות על ${max.toLocaleString('he-IL')}`;
+                group.appendChild(msg);
+            }
+            return null;
+        }
+        return val;
+    },
+
+    /** Clear all validation errors in a section */
+    clearErrors(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        section.querySelectorAll('.has-error').forEach(g => g.classList.remove('has-error'));
+        section.querySelectorAll('.input-error-msg').forEach(m => m.remove());
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ═══════════════════════════════════════════════════════════

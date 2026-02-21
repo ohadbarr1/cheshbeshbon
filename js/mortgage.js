@@ -205,23 +205,43 @@ const MortgageCalc = {
     },
 
     calculate() {
+        Validation.clearErrors('mortgage-section');
         const cpiRate = parseFloat(document.getElementById('cpi-rate').value) || 0;
         const trackCards = document.querySelectorAll('.track-card');
         const tracks = [];
+        let hasError = false;
 
         trackCards.forEach((card, i) => {
             const type = card.querySelector('.track-type').value;
-            const amount = parseFloat(card.querySelector('.track-amount').value) || 0;
-            const years = parseInt(card.querySelector('.track-years').value) || 20;
-            const rate = parseFloat(card.querySelector('.track-rate').value) || 0;
+            const amountEl = card.querySelector('.track-amount');
+            const yearsEl = card.querySelector('.track-years');
+            const rateEl = card.querySelector('.track-rate');
+            const amount = parseFloat(amountEl?.value) || 0;
+            const years = parseInt(yearsEl?.value) || 20;
+            const rate = parseFloat(rateEl?.value) || 0;
             const graceEl = card.querySelector('.track-grace');
             const grace = graceEl ? (parseInt(graceEl.value) || 0) : 0;
+
+            // Validate rate
+            if (rate < 0 || rate > 15) {
+                const group = rateEl?.closest('.input-group');
+                if (group) {
+                    group.classList.add('has-error');
+                    const msg = document.createElement('span');
+                    msg.className = 'input-error-msg';
+                    msg.textContent = 'ריבית חייבת להיות בין 0% ל-15%';
+                    group.appendChild(msg);
+                }
+                hasError = true;
+            }
 
             if (amount > 0) {
                 const result = this.calculateTrack(amount, years, rate, type, cpiRate, grace);
                 tracks.push({ index: i + 1, type, typeName: this.getTrackTypeName(type), amount, years, rate, grace, ...result });
             }
         });
+
+        if (hasError) return;
 
         if (tracks.length === 0) return;
 

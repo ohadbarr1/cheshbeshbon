@@ -95,8 +95,9 @@ const SalaryCalc = {
     },
 
     calculate() {
-        const gross = parseFloat(document.getElementById('salary-gross').value) || 0;
-        if (gross <= 0) return;
+        Validation.clearErrors('salary-section');
+        const gross = Validation.validateInput('salary-gross', { min: 0, max: 500000, label: 'שכר ברוטו' });
+        if (gross === null || gross <= 0) return;
 
         const isEmployee = this.employmentMode === 'employee';
         const pensionEmployeePct = parseFloat(document.getElementById('salary-pension-employee').value) || 0;

@@ -7,15 +7,17 @@ const PensionCalc = {
     init() { /* reactive listeners handled by app.js */ },
 
     calculate() {
-        const currentAge = parseInt(document.getElementById('pension-age').value) || 30;
-        const retireAge = parseInt(document.getElementById('pension-retire-age').value) || 67;
-        const salary = parseFloat(document.getElementById('pension-salary').value) || 0;
+        Validation.clearErrors('pension-section');
+        const currentAge = Validation.validateInput('pension-age', { min: 18, max: 75, label: 'גיל' });
+        const retireAge = Validation.validateInput('pension-retire-age', { min: 50, max: 80, label: 'גיל פרישה' });
+        const salary = Validation.validateInput('pension-salary', { min: 0, max: 500000, label: 'שכר' });
         const employeePct = parseFloat(document.getElementById('pension-employee-pct').value) || 0;
         const employerPct = parseFloat(document.getElementById('pension-employer-pct').value) || 0;
         const currentSavings = parseFloat(document.getElementById('pension-current-savings').value) || 0;
         const annualReturn = parseFloat(document.getElementById('pension-return').value) || 0;
         const salaryGrowth = parseFloat(document.getElementById('pension-salary-growth').value) || 0;
 
+        if (currentAge === null || retireAge === null || salary === null) return;
         if (salary <= 0 || retireAge <= currentAge) return;
 
         const yearsToRetire = retireAge - currentAge;

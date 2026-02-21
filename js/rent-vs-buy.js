@@ -99,15 +99,16 @@ const RentVsBuyCalc = {
     },
 
     calculate() {
-        const price = parseFloat(document.getElementById('rvb-property-price').value) || 0;
+        Validation.clearErrors('rent-vs-buy-section');
+        const price = Validation.validateInput('rvb-property-price', { min: 0, max: 50000000, label: 'מחיר הנכס' });
         const equity = parseFloat(document.getElementById('rvb-equity').value) || 0;
-        const mortgageRate = parseFloat(document.getElementById('rvb-mortgage-rate').value) || 0;
+        const mortgageRate = Validation.validateInput('rvb-mortgage-rate', { min: 0, max: 15, label: 'ריבית' });
         const mortgageYears = parseInt(document.getElementById('rvb-mortgage-years').value) || 25;
         const appreciation = parseFloat(document.getElementById('rvb-appreciation').value) || 0;
         const arnona = parseFloat(document.getElementById('rvb-arnona').value) || 0;
         const vaad = parseFloat(document.getElementById('rvb-vaad').value) || 0;
         const isSingle = document.getElementById('rvb-first-apt').checked;
-        const rent = parseFloat(document.getElementById('rvb-rent').value) || 0;
+        const rent = Validation.validateInput('rvb-rent', { min: 0, max: 100000, label: 'שכ"ד' });
         const rentIncrease = parseFloat(document.getElementById('rvb-rent-increase').value) || 0;
         const investmentReturn = parseFloat(document.getElementById('rvb-investment-return').value) || 0;
         const years = parseInt(document.getElementById('rvb-years').value) || 20;
@@ -115,6 +116,7 @@ const RentVsBuyCalc = {
         const lawyerFee = parseFloat(document.getElementById('rvb-lawyer-fee').value) || 0;
         const renovation = parseFloat(document.getElementById('rvb-renovation').value) || 0;
 
+        if (price === null || rent === null || mortgageRate === null) return;
         if (price <= 0 || rent <= 0) return;
 
         const result = this.simulate(price, equity, mortgageRate, mortgageYears, appreciation, arnona, vaad, isSingle, rent, rentIncrease, investmentReturn, years, brokerFee, lawyerFee, renovation);
