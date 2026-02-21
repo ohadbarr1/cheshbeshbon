@@ -15,12 +15,33 @@ const Router = {
                 const page = link.dataset.nav;
                 window.location.hash = page;
                 // Close mobile menu
-                const toggle = document.getElementById('nav-toggle');
-                if (toggle) toggle.checked = false;
+                this.closeMobileMenu();
             });
         });
+        // Close mobile menu on backdrop click
+        const backdrop = document.getElementById('nav-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', () => this.closeMobileMenu());
+        }
+        // Update aria-expanded when toggle changes
+        const toggle = document.getElementById('nav-toggle');
+        if (toggle) {
+            toggle.addEventListener('change', () => {
+                const hamburger = document.querySelector('.nav-hamburger');
+                if (hamburger) hamburger.setAttribute('aria-expanded', String(toggle.checked));
+            });
+        }
         // Initial route
         this.navigate();
+    },
+
+    closeMobileMenu() {
+        const toggle = document.getElementById('nav-toggle');
+        if (toggle) {
+            toggle.checked = false;
+            const hamburger = document.querySelector('.nav-hamburger');
+            if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+        }
     },
 
     navigate() {

@@ -2252,6 +2252,23 @@ body::after {
         border-left: 1px solid var(--border-color);
     }
 
+    .nav-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 199;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    .nav-toggle-input:checked ~ .nav-backdrop {
+        display: block;
+    }
+
     .nav-toggle-input:checked ~ .nav-links {
         right: 0;
     }
