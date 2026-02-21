@@ -378,11 +378,7 @@ const MortgageCalc = {
         html += Insights.renderHTML(insights);
 
         // Share
-        html += `<div class="share-row">
-            <button class="btn-share" id="mortgage-share-btn">\uD83D\uDD17 שתף תוצאות</button>
-            ${Scenarios.renderSaveButton('mortgage')}
-            ${PDFExport.renderButton('mortgage', 'משכנתא')}
-        </div>`;
+        html += UIHelpers.renderShareRow('mortgage', 'mortgage-share-btn', 'משכנתא');
 
         html += '</div>';
         document.getElementById('mortgage-results').innerHTML = html;

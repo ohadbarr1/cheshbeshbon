@@ -16,6 +16,7 @@ const ASSETS = [
     './js/charts.js',
     './js/insights.js',
     './js/share.js',
+    './js/ui-helpers.js',
     './js/scenarios.js',
     './js/premium.js',
     './js/pdf-export.js',

@@ -181,11 +181,7 @@ const PensionCalc = {
         html += Insights.renderHTML(insights);
 
         // Share
-        html += `<div class="share-row">
-            <button class="btn-share" id="pension-share-btn">\uD83D\uDD17 שתף תוצאות</button>
-            ${Scenarios.renderSaveButton('pension')}
-            ${PDFExport.renderButton('pension', 'פנסיה')}
-        </div>`;
+        html += UIHelpers.renderShareRow('pension', 'pension-share-btn', 'פנסיה');
 
         html += '</div>';
         container.innerHTML = html;

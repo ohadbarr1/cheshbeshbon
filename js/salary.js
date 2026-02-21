@@ -225,11 +225,7 @@ const SalaryCalc = {
         html += Insights.renderHTML(insights);
 
         // Share
-        html += `<div class="share-row">
-            <button class="btn-share" id="salary-share-btn">\uD83D\uDD17 שתף תוצאות</button>
-            ${Scenarios.renderSaveButton('salary')}
-            ${PDFExport.renderButton('salary', 'שכר')}
-        </div>`;
+        html += UIHelpers.renderShareRow('salary', 'salary-share-btn', 'שכר');
 
         html += '</div>';
         container.innerHTML = html;
