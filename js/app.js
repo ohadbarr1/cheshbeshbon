@@ -77,9 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const tabId = btn.dataset.tab;
 
-            // Update active tab
-            tabBtns.forEach(b => b.classList.remove('active'));
+            // Update active tab and ARIA
+            tabBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
             btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
 
             // Show corresponding section with animation
             sections.forEach(s => {

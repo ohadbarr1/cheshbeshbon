@@ -210,22 +210,22 @@
     <!-- ==================== PAGE: CALCULATORS ==================== -->
     <section id="page-calculators" class="page-section" style="display:none;">
         <!-- Navigation Tabs (calculator-specific) -->
-        <nav class="tab-nav">
-            <div class="tab-nav-inner">
-                <button class="tab-btn active" data-tab="mortgage">
-                    <span class="tab-icon">&#x1F3E0;</span>
+        <nav class="tab-nav" aria-label="מחשבונים">
+            <div class="tab-nav-inner" role="tablist">
+                <button class="tab-btn active" data-tab="mortgage" role="tab" aria-selected="true" aria-controls="mortgage-section" id="tab-mortgage">
+                    <span class="tab-icon" aria-hidden="true">&#x1F3E0;</span>
                     <span class="tab-label">משכנתא</span>
                 </button>
-                <button class="tab-btn" data-tab="salary">
-                    <span class="tab-icon">&#x1F4B5;</span>
+                <button class="tab-btn" data-tab="salary" role="tab" aria-selected="false" aria-controls="salary-section" id="tab-salary">
+                    <span class="tab-icon" aria-hidden="true">&#x1F4B5;</span>
                     <span class="tab-label">שכר</span>
                 </button>
-                <button class="tab-btn" data-tab="rent-vs-buy">
-                    <span class="tab-icon">&#x1F3D7;</span>
+                <button class="tab-btn" data-tab="rent-vs-buy" role="tab" aria-selected="false" aria-controls="rent-vs-buy-section" id="tab-rent-vs-buy">
+                    <span class="tab-icon" aria-hidden="true">&#x1F3D7;</span>
                     <span class="tab-label">שכירות/קנייה</span>
                 </button>
-                <button class="tab-btn" data-tab="pension">
-                    <span class="tab-icon">&#x1F4C8;</span>
+                <button class="tab-btn" data-tab="pension" role="tab" aria-selected="false" aria-controls="pension-section" id="tab-pension">
+                    <span class="tab-icon" aria-hidden="true">&#x1F4C8;</span>
                     <span class="tab-label">פנסיה</span>
                 </button>
             </div>
@@ -235,7 +235,7 @@
         <div class="main-content">
 
             <!-- ==================== MORTGAGE SECTION ==================== -->
-            <section class="calculator-section active" id="mortgage-section">
+            <section class="calculator-section active" id="mortgage-section" role="tabpanel" aria-labelledby="tab-mortgage">
                 <div class="section-header">
                     <div class="section-header-text">
                         <h2>משכנתא מאסטר</h2>
@@ -412,7 +412,7 @@
                     </div>
 
                     <!-- Results Panel -->
-                    <div class="results-panel" id="mortgage-results">
+                    <div class="results-panel" id="mortgage-results" aria-live="polite">
                         <div class="results-placeholder">
                             <span class="placeholder-icon">&#x1F3E0;</span>
                             <h3>גלה כמה באמת עולה לך המשכנתא</h3>
@@ -423,7 +423,7 @@
             </section>
 
             <!-- ==================== SALARY SECTION ==================== -->
-            <section class="calculator-section" id="salary-section">
+            <section class="calculator-section" id="salary-section" role="tabpanel" aria-labelledby="tab-salary">
                 <div class="section-header">
                     <div class="section-header-text">
                         <h2>מחשבון שכר אמיתי</h2>
@@ -510,7 +510,7 @@
                         </div>
                     </div>
 
-                    <div class="results-panel" id="salary-results">
+                    <div class="results-panel" id="salary-results" aria-live="polite">
                         <div class="results-placeholder">
                             <span class="placeholder-icon">&#x1F4B5;</span>
                             <h3>כמה באמת נשאר לך?</h3>
@@ -521,7 +521,7 @@
             </section>
 
             <!-- ==================== RENT VS BUY SECTION ==================== -->
-            <section class="calculator-section" id="rent-vs-buy-section">
+            <section class="calculator-section" id="rent-vs-buy-section" role="tabpanel" aria-labelledby="tab-rent-vs-buy">
                 <div class="section-header">
                     <div class="section-header-text">
                         <h2>שכירות vs. קנייה</h2>
@@ -633,7 +633,7 @@
                         </div>
                     </div>
 
-                    <div class="results-panel" id="rent-vs-buy-results">
+                    <div class="results-panel" id="rent-vs-buy-results" aria-live="polite">
                         <div class="results-placeholder">
                             <span class="placeholder-icon">&#x1F3D7;</span>
                             <h3>לקנות או לשכור?</h3>
@@ -644,7 +644,7 @@
             </section>
 
             <!-- ==================== PENSION SECTION ==================== -->
-            <section class="calculator-section" id="pension-section">
+            <section class="calculator-section" id="pension-section" role="tabpanel" aria-labelledby="tab-pension">
                 <div class="section-header">
                     <div class="section-header-text">
                         <h2>מחשבון פנסיה</h2>
@@ -714,7 +714,7 @@
                         </div>
                     </div>
 
-                    <div class="results-panel" id="pension-results">
+                    <div class="results-panel" id="pension-results" aria-live="polite">
                         <div class="results-placeholder">
                             <span class="placeholder-icon">&#x1F4C8;</span>
                             <h3>מה מחכה לך בפנסיה?</h3>
