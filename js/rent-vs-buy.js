@@ -3,7 +3,8 @@
  * Purchase tax, sensitivity, insights, share, animated numbers
  */
 const RentVsBuyCalc = {
-    // 2025 Purchase tax tiers for single apartment
+    // 2026 Purchase tax tiers for single apartment
+    // Brackets frozen through 2026 — verify against official Rashut HaMisim publication
     PURCHASE_TAX_SINGLE: [
         { limit: 1919155, rate: 0 },
         { limit: 2276360, rate: 0.035 },
@@ -11,9 +12,10 @@ const RentVsBuyCalc = {
         { limit: 19575710, rate: 0.08 },
         { limit: Infinity, rate: 0.10 }
     ],
+    // 2026 Additional apartment: simplified to 8%/10% split at 6,055,070
+    // Verify against official Rashut HaMisim 2026 publication
     PURCHASE_TAX_ADDITIONAL: [
-        { limit: 5872725, rate: 0.08 },
-        { limit: 19575710, rate: 0.10 },
+        { limit: 6055070, rate: 0.08 },
         { limit: Infinity, rate: 0.10 }
     ],
 
