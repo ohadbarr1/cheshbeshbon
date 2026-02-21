@@ -246,13 +246,6 @@ const PensionCalc = {
             const newReturn = parseFloat(slider.value);
             valueEl.textContent = newReturn.toFixed(1) + '%';
 
-            const sim = this.simulate(
-                d.salary, d.employeePct, d.employerPct,
-                d.totalContributions - d.balance + d.timeline[0]?.contributions || 0,
-                newReturn, 0, d.yearsToRetire
-            );
-
-            // Simplified: recalculate with current savings
             const simResult = this.simulate(
                 d.salary, d.employeePct, d.employerPct,
                 parseFloat(document.getElementById('pension-current-savings').value) || 0,
