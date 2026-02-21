@@ -153,25 +153,32 @@ const MortgageCalc = {
         return { schedule, totalPaid, totalInterest, firstPayment: schedule[0]?.payment || 0, lastPayment: schedule[schedule.length - 1]?.payment || 0 };
     },
 
-    // Early repayment simulation
+    // Early repayment simulation (handles CPI-linked tracks)
     simulateEarlyRepayment(tracks, extraMonthly, lumpSum, lumpSumMonth) {
         let originalTotalInterest = tracks.reduce((s, t) => s + t.totalInterest, 0);
         let originalTotalMonths = Math.max(...tracks.map(t => t.schedule.length));
         let newTotalInterest = 0;
         let newTotalMonths = 0;
         const totalAmount = tracks.reduce((s, t) => s + t.amount, 0);
+        const cpiRate = parseFloat(document.getElementById('cpi-rate')?.value) || 0;
+        const monthlyCPI = Math.pow(1 + cpiRate / 100, 1 / 12) - 1;
 
         tracks.forEach(t => {
             const share = totalAmount > 0 ? t.amount / totalAmount : 0;
             const trackExtra = extraMonthly * share;
             const trackLump = lumpSum * share;
             const monthlyRate = t.rate / 100 / 12;
+            const isCPI = t.type === 'cpi-fixed' || t.type === 'cpi-variable';
             let balance = t.amount;
             let interest = 0;
             let month = 0;
 
             while (balance > 0.5 && month < t.schedule.length) {
                 month++;
+                // CPI adjustment: inflate balance before interest calculation
+                if (isCPI) {
+                    balance *= (1 + monthlyCPI);
+                }
                 if (month === lumpSumMonth && trackLump > 0) {
                     balance = Math.max(0, balance - trackLump);
                 }
