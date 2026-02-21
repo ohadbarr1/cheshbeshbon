@@ -236,7 +236,8 @@ const RentVsBuyCalc = {
                     `הון נקי קנייה: ${fmt(d.finalBuyWealth)}\n` +
                     `הון נקי שכירות: ${fmt(d.finalRentWealth)}\n` +
                     `אחרי ${d.years} שנים\n` +
-                    `חשב גם: cheshbeshbon.co.il`
+                    `חשב גם: cheshbeshbon.co.il`,
+                    shareBtn
                 );
             });
         }

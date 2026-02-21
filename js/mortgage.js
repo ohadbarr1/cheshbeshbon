@@ -406,7 +406,8 @@ const MortgageCalc = {
                     `החזר חודשי: ${fmt(firstMonthly)}\n` +
                     `עלות כוללת: ${fmt(totalPaid)}\n` +
                     `ריבית: ${fmt(totalInterest)}\n` +
-                    `חשב גם: cheshbeshbon.co.il`
+                    `חשב גם: cheshbeshbon.co.il`,
+                    shareBtn
                 );
             });
         }

@@ -226,7 +226,8 @@ const PensionCalc = {
                     `צבירה צפויה: ${fmt(d.balance)}\n` +
                     `פנסיה חודשית: ${fmt(d.monthlyPension)}\n` +
                     `${d.replacementRatio.toFixed(0)}% מהשכר האחרון\n` +
-                    `חשב גם: cheshbeshbon.co.il`
+                    `חשב גם: cheshbeshbon.co.il`,
+                    shareBtn
                 );
             });
         }

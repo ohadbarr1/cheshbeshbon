@@ -258,7 +258,8 @@ const SalaryCalc = {
                     `נטו: ${fmt(d.netSalary)}\n` +
                     `מס הכנסה: ${fmt(d.incomeTax)}\n` +
                     (d.isEmployee ? `ערך אמיתי: ${fmt(d.realValue)}\n` : '') +
-                    `חשב גם: cheshbeshbon.co.il`
+                    `חשב גם: cheshbeshbon.co.il`,
+                    shareBtn
                 );
             });
         }
