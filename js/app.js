@@ -399,5 +399,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // NUMBER FORMATTING — Thousands separator preview
+    // ═══════════════════════════════════════════════════════════
+    const numberFormatter = new Intl.NumberFormat('he-IL');
+    const formatThreshold = 1000; // Only show preview for numbers >= 1000
+
+    function addFormatPreview(input) {
+        let preview = input.parentElement.querySelector('.number-format-preview');
+        const val = parseFloat(input.value);
+        if (!isNaN(val) && Math.abs(val) >= formatThreshold) {
+            if (!preview) {
+                preview = document.createElement('span');
+                preview.className = 'number-format-preview';
+                input.parentElement.appendChild(preview);
+            }
+            preview.textContent = '₪' + numberFormatter.format(val);
+        } else if (preview) {
+            preview.remove();
+        }
+    }
+
+    // Apply to all number inputs with step >= 100 (large value inputs)
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        const step = parseFloat(input.getAttribute('step')) || 1;
+        if (step >= 100 || input.id.includes('price') || input.id.includes('equity') || input.id.includes('amount') || input.id.includes('savings')) {
+            input.addEventListener('input', () => addFormatPreview(input));
+            // Show preview on load for pre-filled values
+            addFormatPreview(input);
+        }
+    });
+
     console.log('🧮 חשבשבון V2 loaded — Real-time reactive mode active');
 });

@@ -2359,6 +2359,18 @@ body::after {
     }
 }
 
+/* ===== NUMBER FORMAT PREVIEW ===== */
+.number-format-preview {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--accent-blue);
+    margin-top: 0.15rem;
+    direction: ltr;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+}
+
 /* ===== INPUT VALIDATION ===== */
 .input-group.has-error input,
 .input-group.has-error select {
