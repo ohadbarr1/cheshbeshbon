@@ -1,23 +1,12 @@
 /**
  * rent-vs-buy.js — V2 Israeli Rent vs Buy Comparison
  * Purchase tax, sensitivity, insights, share, animated numbers
+ * Tax data sourced from TaxData (js/tax-data.js)
  */
 const RentVsBuyCalc = {
-    // 2026 Purchase tax tiers for single apartment
-    // Brackets frozen through 2026 — verify against official Rashut HaMisim publication
-    PURCHASE_TAX_SINGLE: [
-        { limit: 1919155, rate: 0 },
-        { limit: 2276360, rate: 0.035 },
-        { limit: 5872725, rate: 0.05 },
-        { limit: 19575710, rate: 0.08 },
-        { limit: Infinity, rate: 0.10 }
-    ],
-    // 2026 Additional apartment: simplified to 8%/10% split at 6,055,070
-    // Verify against official Rashut HaMisim 2026 publication
-    PURCHASE_TAX_ADDITIONAL: [
-        { limit: 6055070, rate: 0.08 },
-        { limit: Infinity, rate: 0.10 }
-    ],
+    // Reference TaxData for purchase tax tiers
+    get PURCHASE_TAX_SINGLE() { return TaxData.PURCHASE_TAX_SINGLE; },
+    get PURCHASE_TAX_ADDITIONAL() { return TaxData.PURCHASE_TAX_ADDITIONAL; },
 
     init() {
         // Range slider live display

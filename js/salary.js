@@ -1,39 +1,25 @@
 /**
  * salary.js — V2 Israeli Salary Calculator (2026)
  * Employee & Self-Employed modes, company car, insights, share, animated countup
+ * Tax data sourced from TaxData (js/tax-data.js)
  */
 const SalaryCalc = {
     employmentMode: 'employee',
 
-    // 2026 Monthly tax brackets
-    // Note: 20% bracket expanded to 19,000; 31% starts at 19,000; 35% raised to 25,100
-    // Verify against official Rashut HaMisim 2026 publication
-    TAX_BRACKETS: [
-        { limit: 7010,     rate: 0.10 },
-        { limit: 10060,    rate: 0.14 },
-        { limit: 19000,    rate: 0.20 },
-        { limit: 25100,    rate: 0.31 },
-        { limit: 46690,    rate: 0.35 },
-        { limit: 60130,    rate: 0.47 },
-        { limit: Infinity, rate: 0.50 }
-    ],
-
-    // Employee NI + Health rates
-    EMP_NI_LOWER: 0.004, EMP_NI_UPPER: 0.07,
-    EMP_HEALTH_LOWER: 0.031, EMP_HEALTH_UPPER: 0.05,
-
-    // Self-employed NI + Health rates
-    SELF_NI_LOWER: 0.0287, SELF_NI_UPPER: 0.1283,
-    SELF_HEALTH_LOWER: 0.031, SELF_HEALTH_UPPER: 0.05,
-
-    // Thresholds (based on 2026 average wage ~13,769/month)
-    // Verify against official Bituach Leumi 2026 circular
-    NI_THRESHOLD: 7522,
-    NI_CEILING: 48281,
-
-    // Credit point value (2026) — remains 242
-    CREDIT_POINT_VALUE: 242,
-    PENSION_CEILING: 12420,
+    // Reference TaxData for all year-specific constants
+    get TAX_BRACKETS() { return TaxData.TAX_BRACKETS; },
+    get EMP_NI_LOWER() { return TaxData.EMP_NI_LOWER; },
+    get EMP_NI_UPPER() { return TaxData.EMP_NI_UPPER; },
+    get EMP_HEALTH_LOWER() { return TaxData.EMP_HEALTH_LOWER; },
+    get EMP_HEALTH_UPPER() { return TaxData.EMP_HEALTH_UPPER; },
+    get SELF_NI_LOWER() { return TaxData.SELF_NI_LOWER; },
+    get SELF_NI_UPPER() { return TaxData.SELF_NI_UPPER; },
+    get SELF_HEALTH_LOWER() { return TaxData.SELF_HEALTH_LOWER; },
+    get SELF_HEALTH_UPPER() { return TaxData.SELF_HEALTH_UPPER; },
+    get NI_THRESHOLD() { return TaxData.NI_THRESHOLD; },
+    get NI_CEILING() { return TaxData.NI_CEILING; },
+    get CREDIT_POINT_VALUE() { return TaxData.CREDIT_POINT_VALUE; },
+    get PENSION_CEILING() { return TaxData.PENSION_CEILING; },
 
     init() {
         // Employment toggle
