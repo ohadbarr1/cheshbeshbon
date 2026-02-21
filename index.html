@@ -20,6 +20,7 @@
 
     <meta name="theme-color" content="#06060b">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="manifest" href="manifest.json">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -956,5 +957,10 @@
     <script src="js/pdf-export.js"></script>
     <script src="js/router.js"></script>
     <script src="js/app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
 </body>
 </html>
