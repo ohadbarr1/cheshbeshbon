@@ -71,6 +71,25 @@ document.addEventListener('DOMContentLoaded', () => {
     Router.init();
 
     // ═══════════════════════════════════════════════════════════
+    // THEME TOGGLE — Dark/Light mode
+    // ═══════════════════════════════════════════════════════════
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('cheshbeshbon_theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (themeToggle) themeToggle.textContent = savedTheme === 'light' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+    }
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('cheshbeshbon_theme', next);
+            themeToggle.textContent = next === 'light' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════
     // TAB NAVIGATION (within calculators page)
     // ═══════════════════════════════════════════════════════════
     const tabBtns = document.querySelectorAll('.tab-btn');

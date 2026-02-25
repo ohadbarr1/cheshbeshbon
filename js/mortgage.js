@@ -330,6 +330,51 @@ const MortgageCalc = {
         });
         html += `<tr class="total-row"><td>סה"כ</td><td>${fmt(totalPaid)}</td></tr></table></div>`;
 
+        // Amortization table (expandable)
+        html += `
+            <div class="result-card amortization-card">
+                <button class="amortization-toggle" id="amort-toggle" aria-expanded="false">
+                    <h3>&#x1F4C5; לוח סילוקין מלא</h3>
+                    <span class="amort-arrow">&#x25BC;</span>
+                </button>
+                <div class="amortization-wrap" id="amort-table-wrap" style="display:none;">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>חודש</th>
+                                <th>תשלום</th>
+                                <th>קרן</th>
+                                <th>ריבית</th>
+                                <th>יתרה</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+        // Aggregate all tracks per month
+        for (let m = 0; m < maxMonths; m++) {
+            let payment = 0, principal = 0, interest = 0, balance = 0;
+            tracks.forEach(t => {
+                if (m < t.schedule.length) {
+                    payment += t.schedule[m].payment;
+                    principal += t.schedule[m].principal;
+                    interest += t.schedule[m].interest;
+                    balance += t.schedule[m].balance;
+                }
+            });
+            // Show every 12th month (yearly) by default, or all if < 60 months
+            if (maxMonths <= 60 || (m + 1) % 12 === 0 || m === 0 || m === maxMonths - 1) {
+                html += `<tr${(m + 1) % 12 === 0 ? ' class="year-row"' : ''}>
+                    <td>${m + 1}</td>
+                    <td>${fmt(payment)}</td>
+                    <td>${fmt(principal)}</td>
+                    <td>${fmt(interest)}</td>
+                    <td>${fmt(balance)}</td>
+                </tr>`;
+            }
+        }
+
+        html += `</tbody></table></div></div>`;
+
         // Payment timeline chart
         html += '<div class="result-card"><h3>החזר חודשי לאורך זמן</h3><div class="chart-container"><canvas id="mortgage-payment-chart"></canvas></div></div>';
 
@@ -395,6 +440,18 @@ const MortgageCalc = {
 
         // Bind sensitivity
         this.bindSensitivity(tracks, cpiRate, totalPaid, fmt);
+
+        // Bind amortization table toggle
+        const amortToggle = document.getElementById('amort-toggle');
+        const amortWrap = document.getElementById('amort-table-wrap');
+        if (amortToggle && amortWrap) {
+            amortToggle.addEventListener('click', () => {
+                const isOpen = amortWrap.style.display !== 'none';
+                amortWrap.style.display = isOpen ? 'none' : '';
+                amortToggle.setAttribute('aria-expanded', String(!isOpen));
+                amortToggle.querySelector('.amort-arrow').textContent = isOpen ? '\u25BC' : '\u25B2';
+            });
+        }
 
         // Share button
         const shareBtn = document.getElementById('mortgage-share-btn');

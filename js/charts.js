@@ -4,6 +4,22 @@
 const ChartManager = {
     instances: {},
     formatter: new Intl.NumberFormat('he-IL'),
+    _loadPromise: null,
+
+    /** Lazy-load Chart.js from CDN on first use */
+    _ensureLoaded() {
+        if (typeof Chart !== 'undefined') return Promise.resolve();
+        if (this._loadPromise) return this._loadPromise;
+
+        this._loadPromise = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
+            script.onload = resolve;
+            script.onerror = () => reject(new Error('Chart.js failed to load'));
+            document.head.appendChild(script);
+        });
+        return this._loadPromise;
+    },
 
     formatCurrency(value) {
         return '\u20AA' + this.formatter.format(Math.round(value));
@@ -111,7 +127,8 @@ const ChartManager = {
         };
     },
 
-    createLine(canvasId, labels, datasets, customOptions = {}) {
+    async createLine(canvasId, labels, datasets, customOptions = {}) {
+        await this._ensureLoaded();
         this.destroy(canvasId);
         const ctx = document.getElementById(canvasId);
         if (!ctx) return null;
@@ -125,7 +142,8 @@ const ChartManager = {
         return this.instances[canvasId];
     },
 
-    createBar(canvasId, labels, datasets, customOptions = {}) {
+    async createBar(canvasId, labels, datasets, customOptions = {}) {
+        await this._ensureLoaded();
         this.destroy(canvasId);
         const ctx = document.getElementById(canvasId);
         if (!ctx) return null;
@@ -139,7 +157,8 @@ const ChartManager = {
         return this.instances[canvasId];
     },
 
-    createDoughnut(canvasId, labels, data, colors, customOptions = {}) {
+    async createDoughnut(canvasId, labels, data, colors, customOptions = {}) {
+        await this._ensureLoaded();
         this.destroy(canvasId);
         const ctx = document.getElementById(canvasId);
         if (!ctx) return null;

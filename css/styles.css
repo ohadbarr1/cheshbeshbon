@@ -46,6 +46,56 @@
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ===== LIGHT THEME OVERRIDES ===== */
+[data-theme="light"] {
+    --bg-primary: #f5f5fa;
+    --bg-secondary: rgba(255, 255, 255, 0.9);
+    --bg-card: #ffffff;
+    --bg-card-hover: #f0f0f5;
+    --bg-input: #f8f8fc;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-light: rgba(0, 0, 0, 0.12);
+    --border-glow: rgba(0, 0, 0, 0.18);
+    --text-primary: #1a1a2e;
+    --text-secondary: #555570;
+    --text-muted: #8888a0;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+}
+
+[data-theme="light"] body::before {
+    background:
+        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(96, 165, 250, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 60% at 50% 50%, rgba(251, 191, 36, 0.04) 0%, transparent 50%);
+}
+
+[data-theme="light"] body::after {
+    display: none;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+    padding: 0;
+}
+.theme-toggle:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
 html {
     font-size: 15px;
     scroll-behavior: smooth;
@@ -2406,6 +2456,99 @@ body::after {
     top: 0;
 }
 
+/* ===== AMORTIZATION TABLE ===== */
+.amortization-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+.amortization-toggle h3 {
+    margin: 0;
+    font-size: 0.95rem;
+}
+.amort-arrow {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    transition: transform var(--transition-fast);
+}
+
+.amortization-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-top: 0.8rem;
+}
+.amortization-table th {
+    text-align: right;
+    padding: 0.5rem 0.4rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.72rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.amortization-table td {
+    padding: 0.4rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    font-variant-numeric: tabular-nums;
+}
+.amortization-table .year-row td {
+    font-weight: 600;
+    color: var(--text-primary);
+    background: rgba(96, 165, 250, 0.04);
+}
+.amortization-wrap {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* ===== FOCUS-VISIBLE — Keyboard navigation focus rings ===== */
+/* Remove default outline for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Visible focus ring for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Specific overrides for elements with custom shapes */
+.tab-btn:focus-visible,
+.preset-chip:focus-visible,
+.scenario-chip:focus-visible,
+.price-card:focus-visible {
+    outline-offset: -2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+input:focus-visible {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.nav-hamburger:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+}
+
 /* ===== UTILITY CLASSES ===== */
 .hidden { display: none !important; }
 
@@ -2720,5 +2863,124 @@ body::after {
     }
     .btn-fill-profile {
         display: none;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    /* Hide non-essential UI */
+    .app-header,
+    .main-nav,
+    .tab-nav,
+    .app-footer,
+    .hero,
+    .presets-row,
+    .scenarios-row,
+    .premium-feature-card,
+    .btn-share,
+    .btn-export-pdf,
+    .btn-fill-profile,
+    .btn-subscribe,
+    .btn-add,
+    .sensitivity-container,
+    .early-repayment-card,
+    .modal-overlay,
+    .skip-to-content,
+    .data-badge,
+    .premium-btn,
+    .btn-login,
+    .user-menu,
+    .theme-toggle,
+    .tooltip-trigger,
+    .number-format-preview,
+    #page-home,
+    #page-about,
+    #page-faq,
+    #page-contact,
+    #page-profile {
+        display: none !important;
+    }
+
+    /* Reset backgrounds and colors for print */
+    body, html {
+        background: #fff !important;
+        color: #000 !important;
+    }
+    body::before, body::after {
+        display: none !important;
+    }
+
+    /* Show all calculator sections for context */
+    .page-section {
+        display: block !important;
+    }
+    .calculator-section {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+
+    /* Clean card styles */
+    .result-card, .card, .inputs-panel, .results-panel {
+        background: #fff !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        color: #000 !important;
+    }
+    .result-big-number {
+        color: #000 !important;
+    }
+    .result-subtitle {
+        color: #555 !important;
+    }
+
+    /* Table styling for print */
+    .payslip-table, .amortization-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .payslip-table td, .payslip-table th,
+    .amortization-table td, .amortization-table th {
+        border: 1px solid #ccc;
+        padding: 4px 8px;
+        color: #000 !important;
+    }
+
+    /* Show amortization table expanded */
+    .amortization-wrap {
+        display: block !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    .amort-arrow {
+        display: none !important;
+    }
+
+    /* Charts: let them size naturally */
+    .chart-container {
+        page-break-inside: avoid;
+    }
+
+    /* Section headers */
+    .section-header h2, .content-title {
+        color: #000 !important;
+    }
+    .section-source {
+        color: #666 !important;
+    }
+
+    /* Inputs panel — show current values only */
+    .input-group label {
+        color: #333 !important;
+    }
+    input, select {
+        border: 1px solid #ccc !important;
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    /* Remove animations */
+    * {
+        animation: none !important;
+        transition: none !important;
     }
 }
