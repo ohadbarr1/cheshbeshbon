@@ -66,6 +66,12 @@
                 "name": "מחשבון פנסיה",
                 "url": "https://cheshbeshbon.co.il/#pension",
                 "description": "תחזית חיסכון פנסיוני. סימולציית חיסכון, יחס תחלופה, ניתוח רגישות"
+            },
+            {
+                "@type": "WebApplication",
+                "name": "מחשבון מס עצמאים",
+                "url": "https://cheshbeshbon.co.il/#freelancer-tax",
+                "description": "תכנון מס לעצמאים: מס הכנסה, ביטוח לאומי, מקדמות, פנסיה, קרן השתלמות, עוסק פטור/מורשה"
             }
         ]
     }
@@ -282,6 +288,10 @@
                 <button class="tab-btn" data-tab="pension" role="tab" aria-selected="false" aria-controls="pension-section" id="tab-pension">
                     <span class="tab-icon" aria-hidden="true">&#x1F4C8;</span>
                     <span class="tab-label">פנסיה</span>
+                </button>
+                <button class="tab-btn" data-tab="freelancer-tax" role="tab" aria-selected="false" aria-controls="freelancer-tax-section" id="tab-freelancer-tax">
+                    <span class="tab-icon" aria-hidden="true">&#x1F4BC;</span>
+                    <span class="tab-label">מס עצמאים</span>
                 </button>
             </div>
         </nav>
@@ -783,6 +793,133 @@
                 </div>
             </section>
 
+            <!-- ==================== FREELANCER TAX SECTION ==================== -->
+            <section class="calculator-section" id="freelancer-tax-section" role="tabpanel" aria-labelledby="tab-freelancer-tax">
+                <div class="section-header">
+                    <div class="section-header-text">
+                        <h2>&#x1F4BC; מחשבון מס עצמאים</h2>
+                        <p>תכנון מס מלא לעצמאים — מקדמות, פנסיה, קרן השתלמות, עוסק פטור/מורשה</p>
+                    </div>
+                    <span class="section-source">נתוני מס: רשות המסים 2026</span>
+                    <button class="btn-fill-profile" data-calc="freelancer-tax" title="מלא מפרופיל">&#x1F464; מלא מפרופיל</button>
+                </div>
+                <div class="calculator-layout">
+                    <div class="inputs-panel">
+
+                        <!-- Saved Scenarios -->
+                        <div class="scenarios-row" id="scenarios-freelancer-tax"></div>
+
+                        <div class="card">
+                            <!-- Revenue Period Toggle -->
+                            <div class="toggle-group ft-period-toggle">
+                                <button class="toggle-option ft-period-btn active" data-period="monthly">חודשי</button>
+                                <button class="toggle-option ft-period-btn" data-period="annual">שנתי</button>
+                            </div>
+
+                            <h3>הכנסות</h3>
+                            <div class="input-group">
+                                <label for="ft-revenue">הכנסה ברוטו (&#x20AA;)</label>
+                                <input type="number" id="ft-revenue" value="20000" min="0" step="500" inputmode="numeric">
+                            </div>
+
+                            <!-- Osek Status -->
+                            <div class="input-group">
+                                <label>סטטוס מע"מ</label>
+                                <div class="toggle-group ft-osek-toggle">
+                                    <button class="toggle-option ft-osek-btn active" data-osek="patur">עוסק פטור</button>
+                                    <button class="toggle-option ft-osek-btn" data-osek="murshe">עוסק מורשה</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>הוצאות עסקיות (&#x20AA;/חודש)</h3>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="ft-exp-home">שכ"ד ביתי
+                                        <span class="tooltip-trigger" data-tooltip="25% מוכר כהוצאה עסקית לעובד מהבית">?</span>
+                                    </label>
+                                    <input type="number" id="ft-exp-home" value="0" min="0" step="100" inputmode="numeric">
+                                </div>
+                                <div class="input-group">
+                                    <label for="ft-exp-phone">טלפון</label>
+                                    <input type="number" id="ft-exp-phone" value="0" min="0" step="50" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="ft-exp-internet">אינטרנט</label>
+                                    <input type="number" id="ft-exp-internet" value="0" min="0" step="50" inputmode="numeric">
+                                </div>
+                                <div class="input-group">
+                                    <label for="ft-exp-car">הוצאות רכב</label>
+                                    <input type="number" id="ft-exp-car" value="0" min="0" step="100" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="ft-exp-car-pct">% שימוש עסקי ברכב
+                                    <span class="tooltip-trigger" data-tooltip="אחוז הנסיעות לצרכי עסק (ברירת מחדל: 45%)">?</span>
+                                </label>
+                                <input type="number" id="ft-exp-car-pct" value="45" min="0" max="100" step="5" inputmode="numeric">
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="ft-exp-equipment">ציוד ותוכנה (שנתי &#x20AA;)</label>
+                                    <input type="number" id="ft-exp-equipment" value="0" min="0" step="500" inputmode="numeric">
+                                </div>
+                                <div class="input-group">
+                                    <label for="ft-exp-professional">שירותים מקצועיים (שנתי &#x20AA;)</label>
+                                    <input type="number" id="ft-exp-professional" value="0" min="0" step="500" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="ft-exp-other">הוצאות אחרות (שנתי &#x20AA;)</label>
+                                <input type="number" id="ft-exp-other" value="0" min="0" step="500" inputmode="numeric">
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>חיסכון וזיכויים</h3>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="ft-pension-pct">פנסיה (%)
+                                        <span class="tooltip-trigger" data-tooltip="עד 11% מוכר כניכוי. עוד 5.5% מזכה בזיכוי מס 35%">?</span>
+                                    </label>
+                                    <input type="number" id="ft-pension-pct" value="5" min="0" max="16" step="0.5" inputmode="decimal">
+                                </div>
+                                <div class="input-group">
+                                    <label for="ft-keren-pct">קרן השתלמות (%)
+                                        <span class="tooltip-trigger" data-tooltip="עד 7% מהכנסה המוכרת. 4.5% מוכר כניכוי מס">?</span>
+                                    </label>
+                                    <input type="number" id="ft-keren-pct" value="0" min="0" max="7" step="0.5" inputmode="decimal">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="ft-credit-points">נקודות זיכוי
+                                    <span class="tooltip-trigger" data-tooltip="כל נקודה = ₪242/חודש הפחתה ממס">?</span>
+                                </label>
+                                <input type="number" id="ft-credit-points" value="2.25" min="0" max="10" step="0.25" inputmode="decimal">
+                                <span class="input-hint">גבר: 2.25 | אישה: 2.75 | + ילדים</span>
+                            </div>
+                        </div>
+
+                        <div class="premium-feature-card" id="ft-compare-card">
+                            <span class="lock-badge">&#x1F512; פרימיום</span>
+                            <h4>השוואת תרחישי הכנסה</h4>
+                            <p>השווה עד 3 רמות הכנסה זו לצד זו</p>
+                        </div>
+                    </div>
+
+                    <div class="results-panel" id="freelancer-tax-results" aria-live="polite">
+                        <div class="results-placeholder">
+                            <span class="placeholder-icon">&#x1F4BC;</span>
+                            <h3>כמה מס תשלם השנה?</h3>
+                            <p>הזן הכנסה וקבל תכנית מס מלאה בזמן אמת</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </section>
 
@@ -1045,6 +1182,7 @@
                         <li><a href="#calculators" onclick="Router.goToCalculator('salary')">שכר נטו</a></li>
                         <li><a href="#calculators" onclick="Router.goToCalculator('rent-vs-buy')">שכירות/קנייה</a></li>
                         <li><a href="#calculators" onclick="Router.goToCalculator('pension')">פנסיה</a></li>
+                        <li><a href="#calculators" onclick="Router.goToCalculator('freelancer-tax')">מס עצמאים</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1081,6 +1219,7 @@
                     <tr><td><kbd>Alt</kbd> + <kbd>2</kbd></td><td>מחשבון שכר</td></tr>
                     <tr><td><kbd>Alt</kbd> + <kbd>3</kbd></td><td>שכירות מול קנייה</td></tr>
                     <tr><td><kbd>Alt</kbd> + <kbd>4</kbd></td><td>מחשבון פנסיה</td></tr>
+                    <tr><td><kbd>Alt</kbd> + <kbd>5</kbd></td><td>מס עצמאים</td></tr>
                     <tr><td><kbd>Esc</kbd></td><td>סגור חלון פתוח</td></tr>
                 </table>
             </div>
@@ -1206,6 +1345,7 @@
     <script src="js/salary.js"></script>
     <script src="js/rent-vs-buy.js"></script>
     <script src="js/pension.js"></script>
+    <script src="js/freelancer-tax.js"></script>
     <!-- Features -->
     <script src="js/scenarios.js"></script>
     <script src="js/pdf-export.js"></script>

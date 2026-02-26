@@ -1,7 +1,7 @@
 /**
  * sw.js — Service Worker for offline caching (cache-first strategy)
  */
-const CACHE_NAME = 'cheshbeshbon-v4';
+const CACHE_NAME = 'cheshbeshbon-v5';
 const ASSETS = [
     './',
     './index.html',
@@ -13,6 +13,7 @@ const ASSETS = [
     './js/salary.js',
     './js/rent-vs-buy.js',
     './js/pension.js',
+    './js/freelancer-tax.js',
     './js/charts.js',
     './js/insights.js',
     './js/share.js',

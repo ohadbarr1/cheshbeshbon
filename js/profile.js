@@ -215,6 +215,19 @@ const Profile = {
                     if (el) el.value = data.pension_savings;
                 }
                 break;
+
+            case 'freelancer-tax':
+                if (data.gross_salary && data.employment_type === 'self-employed') {
+                    const el = document.getElementById('ft-revenue');
+                    if (el) el.value = data.gross_salary;
+                    // Set to monthly period
+                    const monthlyBtn = document.querySelector('.ft-period-btn[data-period="monthly"]');
+                    if (monthlyBtn) {
+                        document.querySelectorAll('.ft-period-btn').forEach(b => b.classList.remove('active'));
+                        monthlyBtn.classList.add('active');
+                    }
+                }
+                break;
         }
 
         // Trigger recalculation

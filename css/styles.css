@@ -3016,3 +3016,245 @@ input:focus-visible {
         transition: none !important;
     }
 }
+
+/* ===== FREELANCER TAX CALCULATOR ===== */
+
+/* Period / Osek toggle */
+.ft-period-toggle,
+.ft-osek-toggle {
+    margin-bottom: 1.2rem;
+}
+
+/* Optimization card */
+.ft-optimization-card {
+    border-top: 2px solid var(--accent-green);
+}
+
+.ft-optimization-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.ft-savings-headline {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.ft-savings-amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-green);
+}
+
+/* Recommendation items */
+.ft-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ft-recommendation-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast);
+}
+
+.ft-recommendation-item:hover {
+    border-color: rgba(52, 211, 153, 0.3);
+}
+
+.ft-rec-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.ft-rec-content {
+    flex: 1;
+}
+
+.ft-rec-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+}
+
+.ft-rec-detail {
+    font-size: 0.88rem;
+    color: var(--accent-green);
+    margin-bottom: 0.25rem;
+}
+
+.ft-rec-explain {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Mikdamot */
+.ft-mikdamot-summary {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.ft-mikdamot-table thead tr {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.ft-mikdamot-table thead th {
+    padding: 0.6rem 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.ft-tip {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0.6rem 0.9rem;
+    background: rgba(251, 191, 36, 0.05);
+    border-right: 2px solid var(--accent-gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* Patur vs Murshe */
+.ft-patur-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+    .ft-patur-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ft-patur-col {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+.ft-patur-col.ft-recommended {
+    border-color: rgba(52, 211, 153, 0.4);
+    background: rgba(52, 211, 153, 0.05);
+}
+
+.ft-patur-col h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+}
+
+.ft-patur-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.ft-patur-col ul li {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.ft-patur-verdict {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+    padding: 0.75rem 1rem;
+    background: rgba(251, 191, 36, 0.07);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Pension & savings optimization */
+.ft-savings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+    .ft-savings-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ft-savings-item h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.benefit-text {
+    color: var(--accent-green) !important;
+    font-weight: 600;
+}
+
+/* Premium blur card for freelancer */
+.ft-premium-blur {
+    cursor: pointer;
+}
+
+.btn-upgrade {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1.25rem;
+    background: var(--gradient-gold);
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity var(--transition-fast);
+}
+
+.btn-upgrade:hover {
+    opacity: 0.85;
+}
+
+/* Light theme overrides for freelancer */
+[data-theme="light"] .ft-recommendation-item {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .ft-patur-col {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .ft-tip {
+    background: rgba(245, 158, 11, 0.08);
+}
+
+[data-theme="light"] .ft-patur-verdict {
+    background: rgba(245, 158, 11, 0.1);
+}

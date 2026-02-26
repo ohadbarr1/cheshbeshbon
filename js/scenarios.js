@@ -124,7 +124,7 @@ const Scenarios = {
     },
 
     renderAll() {
-        ['mortgage', 'salary', 'rent-vs-buy', 'pension'].forEach(id => {
+        ['mortgage', 'salary', 'rent-vs-buy', 'pension', 'freelancer-tax'].forEach(id => {
             this.renderChips(id);
         });
     },

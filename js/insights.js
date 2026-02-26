@@ -11,6 +11,7 @@ const Insights = {
             case 'salary': return this.salaryInsights(data);
             case 'rentVsBuy': return this.rentVsBuyInsights(data);
             case 'pension': return this.pensionInsights(data);
+            case 'freelancer-tax': return this.freelancerTaxInsights(data);
             default: return [];
         }
     },
@@ -208,6 +209,47 @@ const Insights = {
                 type: 'warning',
                 icon: '\u26A1',
                 text: `נותרו ${d.yearsToRetire} שנים — שקול להגדיל הפרשות או לדחות פרישה בשנה-שנתיים. כל שנה נוספת משמעותית מאוד.`
+            });
+        }
+
+        return insights.slice(0, 3);
+    },
+
+    freelancerTaxInsights(d) {
+        const insights = [];
+
+        // Effective tax rate benchmark
+        const typicalRate = d.annualRevenue < 200000 ? 15 : d.annualRevenue < 400000 ? 22 : 30;
+        insights.push({
+            type: d.effectiveRate > typicalRate ? 'warning' : 'positive',
+            icon: '📊',
+            text: `שיעור המס האפקטיבי שלך: <strong>${d.effectiveRate.toFixed(1)}%</strong>. טווח אופייני להכנסה זו: <strong>${typicalRate - 3}%–${typicalRate + 3}%</strong>.`
+        });
+
+        // Keren Hishtalmut opportunity
+        if (d.kerenPct < 7 && d.kerenOpt.annualTaxSaving > 1000) {
+            insights.push({
+                type: 'positive',
+                icon: '💎',
+                text: `אתה מפסיד <strong>${this.fmt(d.kerenOpt.annualTaxSaving)}</strong> בשנה בחיסכון מס — פשוט בהגדלת קרן ההשתלמות ל-7%.`
+            });
+        }
+
+        // Murshe switch hint
+        if (!d.paturVsMurshe.mustBeMurshe && d.paturVsMurshe.vatReclaimOnExpenses > 3000) {
+            insights.push({
+                type: 'tip',
+                icon: '🔄',
+                text: `במעבר לעוסק מורשה תחזיר <strong>${this.fmt(d.paturVsMurshe.vatReclaimOnExpenses)}</strong> מע"מ על הוצאות בשנה.`
+            });
+        }
+
+        // Marginal rate warning
+        if (d.marginalRate >= 0.35) {
+            insights.push({
+                type: 'tip',
+                icon: '📈',
+                text: `המדרגה השולית שלך היא <strong>${(d.marginalRate * 100).toFixed(0)}%</strong>. כל ₪1,000 בהוצאות מוכרות חוסך <strong>${this.fmt(d.marginalRate * 1000)}</strong>.`
             });
         }
 

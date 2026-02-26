@@ -5,7 +5,7 @@
  */
 const Router = {
     pages: ['home', 'calculators', 'about', 'faq', 'contact', 'profile'],
-    calculatorRoutes: ['mortgage', 'salary', 'rent-vs-buy', 'pension'],
+    calculatorRoutes: ['mortgage', 'salary', 'rent-vs-buy', 'pension', 'freelancer-tax'],
     currentPage: null,
 
     // SEO meta data per route
@@ -33,6 +33,10 @@ const Router = {
         pension: {
             title: 'מחשבון פנסיה — חשבשבון | תחזית חיסכון פנסיוני',
             description: 'חשב כמה תקבל בפנסיה. סימולציית חיסכון, יחס תחלופה, ניתוח רגישות. נתוני 2026.'
+        },
+        'freelancer-tax': {
+            title: 'מחשבון מס עצמאים — חשבשבון | אופטימיזציית מס לעצמאים',
+            description: 'מחשבון מס מתקדם לעצמאים: חישוב מס הכנסה, ביטוח לאומי, מקדמות, פנסיה, קרן השתלמות ועוסק פטור/מורשה. נתוני 2026.'
         },
         about: {
             title: 'איך זה עובד — חשבשבון',
@@ -211,6 +215,9 @@ const Router = {
             },
             pension: {
                 age: 'pension-age', salary: 'pension-salary', savings: 'pension-current-savings'
+            },
+            'freelancer-tax': {
+                revenue: 'ft-revenue', pension: 'ft-pension-pct', keren: 'ft-keren-pct'
             }
         };
 
@@ -256,7 +263,8 @@ const Router = {
             mortgage: { '.track-amount': 'amount', '.track-years': 'years', '.track-rate': 'rate', '.track-type': 'type' },
             salary: { 'salary-gross': 'gross' },
             'rent-vs-buy': { 'rvb-property-price': 'price', 'rvb-equity': 'equity', 'rvb-rent': 'rent' },
-            pension: { 'pension-age': 'age', 'pension-salary': 'salary', 'pension-current-savings': 'savings' }
+            pension: { 'pension-age': 'age', 'pension-salary': 'salary', 'pension-current-savings': 'savings' },
+            'freelancer-tax': { 'ft-revenue': 'revenue', 'ft-pension-pct': 'pension', 'ft-keren-pct': 'keren' }
         };
 
         const map = reverseMap[calcId] || {};

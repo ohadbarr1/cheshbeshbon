@@ -67,5 +67,40 @@ const TaxData = {
     // ═══════════════════════════════════════
     // BOI Prime Rate (for reference)
     // ═══════════════════════════════════════
-    BOI_PRIME_RATE: 6.0
+    BOI_PRIME_RATE: 6.0,
+
+    // ═══════════════════════════════════════
+    // Self-Employed / Freelancer Constants
+    // ═══════════════════════════════════════
+    SELF_EMPLOYED: {
+        // NI deduction from taxable income (52% of NI is deductible)
+        NI_DEDUCTION_RATE: 0.52,
+
+        // Pension deduction ceilings (recognized income ceiling = 293,400/year)
+        PENSION_RECOGNIZED_INCOME: 293400 / 12,  // ~24,450/month
+        PENSION_DEDUCTION_RATE: 0.11,             // up to 11% deductible
+        PENSION_CREDIT_RATE: 0.055,               // 5.5% as tax credit (35% of contribution)
+        PENSION_MANDATORY_RATE: 0.0445,           // 4.45% mandatory minimum
+        PENSION_MANDATORY_INCOME_CEILING: 12420,  // monthly income ceiling for mandatory
+
+        // Keren Hishtalmut
+        KEREN_MAX_DEPOSIT_RATE: 0.07,             // up to 7% of income
+        KEREN_DEDUCTIBLE_RATE: 0.045,             // 4.5% is tax-deductible
+        KEREN_INCOME_CEILING: 293400 / 12,        // same recognized income ceiling
+
+        // VAT
+        VAT_RATE: 0.18,
+        OSEK_PATUR_THRESHOLD: 120000,             // annual revenue threshold (2026)
+
+        // Mikdamot (advance tax payments)
+        MIKDAMOT_PERIODS: 6,                      // bimonthly payments
+
+        // Common deductible expense rates
+        EXPENSE_RATES: {
+            HOME_OFFICE: 0.25,    // typical home office proportion
+            CAR_BUSINESS: 0.45,   // 45% of car expenses deductible
+            PHONE: 0.50,          // typical phone business use
+            INTERNET: 0.50        // typical internet business use
+        }
+    }
 };

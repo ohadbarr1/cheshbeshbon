@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     SalaryCalc.init();
     RentVsBuyCalc.init();
     PensionCalc.init();
+    FreelancerTaxCalc.init();
     Scenarios.init();
     Profile.init();
     Router.init();
@@ -192,6 +193,16 @@ document.addEventListener('DOMContentLoaded', () => {
         pensionSection.addEventListener('input', (e) => {
             if (e.target.matches('input')) {
                 debounceCalc('pension', () => PensionCalc.calculate());
+            }
+        });
+    }
+
+    // Freelancer Tax: listen to all inputs in freelancer-tax section
+    const freelancerTaxSection = document.getElementById('freelancer-tax-section');
+    if (freelancerTaxSection) {
+        freelancerTaxSection.addEventListener('input', (e) => {
+            if (e.target.matches('input[type="number"], input[type="range"]')) {
+                debounceCalc('freelancer-tax', () => FreelancerTaxCalc.calculate());
             }
         });
     }
@@ -337,8 +348,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // KEYBOARD SHORTCUTS
     // ═══════════════════════════════════════════════════════════
     document.addEventListener('keydown', (e) => {
-        // Alt+1/2/3/4 to switch tabs
-        if (e.altKey && ['1', '2', '3', '4'].includes(e.key)) {
+        // Alt+1/2/3/4/5 to switch tabs
+        if (e.altKey && ['1', '2', '3', '4', '5'].includes(e.key)) {
             e.preventDefault();
             const tabIndex = parseInt(e.key) - 1;
             const btn = tabBtns[tabIndex];
@@ -514,6 +525,14 @@ document.addEventListener('DOMContentLoaded', () => {
             let tracked = false;
             return () => {
                 if (!tracked) { tracked = true; trackEvent('calculation_start', { type: 'pension' }); }
+            };
+        })());
+    }
+    if (freelancerTaxSection) {
+        freelancerTaxSection.addEventListener('input', (() => {
+            let tracked = false;
+            return () => {
+                if (!tracked) { tracked = true; trackEvent('calculation_start', { type: 'freelancer-tax' }); }
             };
         })());
     }
