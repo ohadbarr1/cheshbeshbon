@@ -113,12 +113,13 @@ const FreelancerTaxCalc = {
         const pensionMonthlyDeduction = recognizedMonthly * Math.min(pensionPct / 100, this.SE.PENSION_DEDUCTION_RATE);
         const annualPensionDeduction = pensionMonthlyDeduction * 12;
 
-        // Pension credit (5.5% of contribution, at 35% rate)
+        // Pension credit: 35% of the lesser of (actual contribution) or (5.5% of recognized income)
+        // When contribution < 5.5%, credit is capped to actual contribution; above 5.5% it caps at 5.5%
         const pensionMonthlyContribution = recognizedMonthly * (pensionPct / 100);
         const annualPensionContribution = pensionMonthlyContribution * 12;
         const pensionCreditAmount = Math.min(
-            recognizedMonthly * this.SE.PENSION_CREDIT_RATE,
-            pensionMonthlyContribution * this.SE.PENSION_CREDIT_RATE / (pensionPct / 100 || 1)
+            pensionMonthlyContribution,
+            recognizedMonthly * this.SE.PENSION_CREDIT_RATE
         ) * 12 * 0.35;
 
         // ── Step 5: Keren Hishtalmut ──
